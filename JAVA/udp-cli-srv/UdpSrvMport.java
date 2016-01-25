@@ -1,7 +1,7 @@
 import java.io.*; 
 import java.net.*; 
 
-class udp_srv_mport
+class UdpSrvMport
 {    
 private static final int PORT_BASE=9009;
 static DatagramSocket sock[];
@@ -25,18 +25,18 @@ for(i=0;i<6;i++)
 System.out.println("A escutar pedidos. Use CTRL+C para terminar");
 
 for(i=0;i<6;i++)
-  new Thread(new udp_srv_mport_thread(sock[i])).start();
+  new Thread(new UdpSrvMportThread(sock[i])).start();
 
 }
 }
 
 
-class udp_srv_mport_thread implements Runnable
+class UdpSrvMportThread implements Runnable
 {
 private DatagramSocket sock;
 
 
-public udp_srv_mport_thread(DatagramSocket s) { sock=s;}
+public UdpSrvMportThread(DatagramSocket s) { sock=s;}
 
 public void run()
 {

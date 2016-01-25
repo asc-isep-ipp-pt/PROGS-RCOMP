@@ -1,7 +1,7 @@
 import java.io.*; 
 import java.net.*; 
 
-class tcp_srv_soma
+class TcpSrvSoma
 {    
 static InetAddress IPdestino;
 static ServerSocket sock;
@@ -18,20 +18,20 @@ catch(IOException ex) {
 while(true)
 	{
 	cliSock=sock.accept();
-	new Thread(new tcp_srv_soma_thread(cliSock)).start();
+	new Thread(new TcpSrvSomaThread(cliSock)).start();
 	}
 } 
 }
 
 
 
-class tcp_srv_soma_thread implements Runnable 
+class TcpSrvSomaThread implements Runnable 
 {    
 private Socket s;
 private DataOutputStream sOut;
 private DataInputStream sIn;
 
-public tcp_srv_soma_thread(Socket cli_s) { s=cli_s;}
+public TcpSrvSomaThread(Socket cli_s) { s=cli_s;}
 
 public void run()
 {

@@ -1,7 +1,7 @@
 import java.io.*; 
 import java.net.*; 
 
-class udp_snd
+class UdpSnd
 {    
 	static InetAddress IPdestino;
 

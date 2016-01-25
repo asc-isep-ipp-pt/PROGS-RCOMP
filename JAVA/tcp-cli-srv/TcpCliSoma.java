@@ -1,7 +1,7 @@
 import java.io.*; 
 import java.net.*; 
 
-class tcp_cli_soma
+class TcpCliSoma
 {    
 static InetAddress IPdestino;
 static Socket sock;

@@ -1,7 +1,7 @@
 import java.io.*; 
 import java.net.*; 
 
-class udp_cli_to
+class UdpCliTo
 {    
 static InetAddress IPdestino;
 
@@ -41,7 +41,7 @@ while(true)
         	System.out.println("Resposta: " + frase);
 		}
 	catch(SocketTimeoutException ex)
-        	{System.out.println("O servidor não respondeu");}
+        	{System.out.println("Sem resposta do servidor");}
 	}
 sock.close();
 } 

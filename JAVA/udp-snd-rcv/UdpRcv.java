@@ -1,22 +1,26 @@
 import java.io.*; 
 import java.net.*; 
 
-class udp_rcv1
+class UdpRcv
 {    
+static DatagramSocket sock;
 public static void main(String args[]) throws Exception       
 	{          
-	DatagramSocket sock = new DatagramSocket(9999);             
+	try { sock = new DatagramSocket(9999); }
+	catch(BindException ex)
+		{
+		System.out.println("O porto esta ocupado");
+                System.exit(1);
+                }
+
 	byte[] data = new byte[300];
 	String frase;
-	InetAddress IPorigem;
              do               
 		{
 		DatagramPacket packet = new DatagramPacket(data, data.length);
-		sock.receive(packet); IPorigem = packet.getAddress();
+		sock.receive(packet);
 		frase = new String( packet.getData(), 0, packet.getLength());
 		System.out.println("Recebido: " + frase);
-		System.out.println("IP origem = " + IPorigem.getHostAddress() + 
-			" ; Porto origem = " + packet.getPort());
 		}
 	while(frase.compareTo("sair")!=0);
 

@@ -1,7 +1,7 @@
 import java.io.*; 
 import java.net.*; 
 
-class udp_srv
+class UdpSrv
 {    
 static DatagramSocket sock;
 public static void main(String args[]) throws Exception       
