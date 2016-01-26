@@ -1,2 +1,7 @@
 C and JAVA versions of the sample programs for RCOMP course
 
+Implementation independent application protocols allow C versions to communicate with Java versions.
+
+
+asc@isep.ipp.pt
+
