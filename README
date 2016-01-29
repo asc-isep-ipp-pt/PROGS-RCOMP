@@ -12,7 +12,6 @@ JAVA/udp-snd-rcv/UdpSnd.java
 				(1) reads a string from keyboard and sends its content inside a UDP datagram
 				exits if the sent string was "sair", otherwise repeat (1)
 
-
 C/udp-snd-rcv/udp_rcv.c
 JAVA/udp-snd-rcv/UdpRcv.java
 				(1) receives a UDP datagram and prints its content as a string
@@ -54,7 +53,7 @@ JAVA/udp-cli-srv/UdpCliTo.java
 
 				same as first client but with timeout, if there is
 				no reply from the server it does not hang forever as
-				previous clients
+				previous clients (C version uses non-blocking socket)
 
 ------------------------------------------------------------------------------------
 Lesson 3 - TCP client and server
@@ -124,7 +123,7 @@ JAVA/tcp-chat/TcpChatCli.java
 				Connect to the server and read the nickname from keyboard.
 				If a string is entered by keyboard, send the nickname and
 				the string to the server (in the form described above).
-				If the string typed at keybord is "sair", send an empty
+				If the string typed at keyboard is "sair", send an empty
 				string to the server, wait for an empty reply and exit.
 				If a string is received from the server (in the form
 				described above) print it on the screen.
