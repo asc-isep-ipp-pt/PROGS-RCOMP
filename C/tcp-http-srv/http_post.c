@@ -20,7 +20,7 @@ char line[200];
 char separator[100];
 char filename[100];
 char filePath[100];
-int done,len;
+int readNow,done,len;
 char *cLen="Content-Length: ";
 char *cTypeMP="Content-Type: multipart/form-data; boundary=";
 char *cDisp="Content-Disposition: form-data; name=\"filename\"; filename=\"";
@@ -80,15 +80,21 @@ if(!f) {
 	sprintf(line, "Failed to create %s file\n",filePath);
 	replyPostError(sock, line);
 	}
+
+// SUBTRACT THE SEPARATOR LENGHT, AND -- ON START AND -- ON END PLUS CRLF
+len=len-strlen(separator)-6;
+
 // FILE CONTENT
 
 do
         {
-	done=read(sock,line,200);
+	if(len>200) readNow=200; else readNow=len;
+	done=read(sock,line,readNow);
 	len=len-done;
 	if(done>0) fwrite(line,1,done,f);
         }
 while(len>0);
+readLineCRLF(sock,line);
 
 fclose(f);
 replyPostList(sock);

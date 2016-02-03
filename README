@@ -138,11 +138,12 @@ JAVA/tcp-chat/TcpChatCliGui.java
 
 
 
-
 ------------------------------------------------------------------------------------
 Lesson 6 - simple HTTP server
 
 C/tcp-http-srv/tcp_http_srv.c
+JAVA/tcp-http-srv/TcpHttpSrv.java
+
 				Get the port number to use as first argument in the
 				command line.
 				Documents directory is sub-folder www/
@@ -151,8 +152,6 @@ C/tcp-http-srv/tcp_http_srv.c
 				Reply to POST for /upload and /list:
 				/upload to upload files with multipart/form-data
 				/list to list the folder files
-
-
 
 
 
