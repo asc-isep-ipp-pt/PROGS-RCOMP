@@ -141,6 +141,14 @@ JAVA/tcp-chat/TcpChatCliGui.java
 
 ------------------------------------------------------------------------------------
 Lesson 6 - simple HTTP server
+				Get the port number to use as first argument in the
+				command line.
+				Documents directory is sub-folder www/
+				Reply to GET requests for some files types:
+				(HTML,PDF,GIF,PNG,TXT).
+				Reply to POST for /upload and /list:
+				/upload to upload files with multipart/form-data
+				/list to list the folder files
 
 
 
