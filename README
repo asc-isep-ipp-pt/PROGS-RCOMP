@@ -9,51 +9,53 @@ Lesson 1 - send and receive UDP datagrams
 
 C/udp-snd-rcv/udp_snd.c
 JAVA/udp-snd-rcv/UdpSnd.java
-				(1) reads a string from keyboard and sends its content inside a UDP datagram
-				exits if the sent string was "sair", otherwise repeat (1)
+				(1) Reads a string from keyboard and sends its content inside a
+				UDP datagram.
+				Exits if the sent string was "sair", otherwise repeat (1)
 
 C/udp-snd-rcv/udp_rcv.c
 JAVA/udp-snd-rcv/UdpRcv.java
-				(1) receives a UDP datagram and prints its content as a string
-				exits if the received string was "sair", otherwise repeat (1)
+				(1) Receives a UDP datagram and prints its content as a string.
+				Exits if the received string was "sair", otherwise repeat (1)
 
 C/udp-snd-rcv/udp_rcv1.c
 JAVA/udp-snd-rcv/UdpRcv1.java
-				same as previous, but also prints IPv4 source address and port number
+				Same as previous, but also prints IPv4 source address and port number.
 
 ------------------------------------------------------------------------------------
 Lesson 2 - UDP client and server
 
 C/udp-cli-srv/udp_srv.c
 JAVA/udp-cli-srv/UdpSrv.java
-				(1) receives a UDP datagram and stores its content in a string
-				reverse the string
-				sends the reversed string inside a UDP datagram to the originator address/port
-				repeat (1)
+				(1) Receives a UDP datagram and stores its content in a string.
+				Reverse the string.
+				Sends the reversed string inside a UDP datagram to the
+				originator address/port.
+				Repeat (1)
 
 C/udp-cli-srv/udp_cli.c
 JAVA/udp-cli-srv/UdpCli.java
-				get the server IPv4 address as first argument in the command line
+				Get the server IPv4 address as first argument in the command line.
 				(Java version can also cope with DNS hostname)
-				(1) reads a string from keyboard, exits if string is "sair"
-				sends the string inside a UDP datagram
-				receives a UDP datagram and prints it contents as a string
-				repeat (1)
+				(1) Reads a string from keyboard, exits if string is "sair".
+				Sends the string inside a UDP datagram.
+				Receives a UDP datagram and prints it contents as a string.
+				Repeat (1).
 
 C/udp-cli-srv/udp_cli_bcast.c
 JAVA/udp-cli-srv/UdpCliBcast.java
 
-				same as previous client but no arguments because UDP
-				first request is sent in broadcast (255.255.255.255)
-				next requests are sent to unicast address of the
-				server that replies to the first request
+				Same as previous client but no arguments because UDP
+				first request is sent in broadcast (255.255.255.255).
+				Next requests are sent to unicast address of the
+				server that replies to the first request.
 
 C/udp-cli-srv/udp_cli_to.c
 JAVA/udp-cli-srv/UdpCliTo.java
 
-				same as first client but with timeout, if there is
+				Same as first client but with timeout, if there is
 				no reply from the server it does not hang forever as
-				previous clients (C version uses non-blocking socket)
+				previous clients (C version uses non-blocking socket).
 
 ------------------------------------------------------------------------------------
 Lesson 3 - TCP client and server
@@ -61,14 +63,14 @@ Lesson 3 - TCP client and server
 C/tcp-cli-srv/tcp_srv_soma.c
 JAVA/tcp-cli-srv/TcpSrvSoma.java
 
-				accepts TCP connections, on each connection receives 
+				Accepts TCP connections, on each connection receives 
 				unsigned integer numbers in the form of 4 bytes, 
 				LSB (“Least Significant Byte”) first, until integer 
 				zero is received.
-				when zero is received reply to client with the sum
-				result in the same form (4 bytes)
-				if first number received is zero closes the connection with
-				the client
+				When zero is received reply to client with the sum
+				result in the same form (4 bytes).
+				If first number received is zero closes the connection with
+				the client.
 
 
 JAVA/tcp-cli-srv/TcpCliSoma.java
@@ -90,14 +92,14 @@ Lesson 4 - asynchronous reception
 C/udp-cli-srv/udp_cli_to_sel.c
 
 				UDP client compatible with previous UDP server sample
-				timeout now implemented with the select system-call
+				timeout now implemented with the select system-call.
 
 C/udp-cli-srv/udp_srv_mport.c
 JAVA/udp-cli-srv/UdpSrvMport.java
 
 				UDP server compatible with previous UDP clients that
 				is able to receive requests in a set of alternative
-				port numbers
+				port numbers.
 
 
 ------------------------------------------------------------------------------------

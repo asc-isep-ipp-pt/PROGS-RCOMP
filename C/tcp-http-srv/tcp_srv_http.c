@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -6,20 +7,26 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "aux.c"
+#include "http_get.c"
+#include "http_post.c"
+
 void processHttpRequest(int sock);
 
 void main(int argc, char **argv)
 {
 struct sockaddr_in me, from;
-int port, newSock, sock, adl;
-unsigned long i, f, n, num, soma;
-unsigned char bt;
+int i, port, newSock, sock;
+socklen_t adl;
 
 if(argc!=2) {puts("Ops, local TCP port number missing from command line"); exit(1);}
 port=atoi(argv[1]);
 if(!port) {printf("Ops, invalid local TCP port number: %s\n",argv[1]); exit(1);}
 adl=sizeof(me);
 sock=socket(AF_INET,SOCK_STREAM,0);
+
+i=1; // AVOID LEAVING THE PORT IN USE AFTER A SERVER CRASH
+setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,&i,sizeof(i));
 
 bzero((char *)&me, adl);
 me.sin_family=AF_INET;
@@ -44,13 +51,15 @@ for(;;)
 close(sock);
 }
 
-void readLineCRLF(int sock, char *line)
-{
-char *aux=line;
-read(sock,
-
-
 void processHttpRequest(int sock)
 {
+char requestLine[200];
+
+readLineCRLF(sock,requestLine);
+printf("Request: %s\n", requestLine);
+if(!strncmp(requestLine,"GET ",4)) processGET(sock,requestLine+5);
+else
+if(!strncmp(requestLine,"POST ",5)) processPOST(sock,requestLine);
 
 }
+
