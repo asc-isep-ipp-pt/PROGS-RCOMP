@@ -141,6 +141,8 @@ JAVA/tcp-chat/TcpChatCliGui.java
 
 ------------------------------------------------------------------------------------
 Lesson 6 - simple HTTP server
+
+C/tcp-http-srv/tcp_http_srv.c
 				Get the port number to use as first argument in the
 				command line.
 				Documents directory is sub-folder www/
