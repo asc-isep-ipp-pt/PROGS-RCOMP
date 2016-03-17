@@ -1,8 +1,16 @@
+
 C and JAVA versions of the sample programs for RCOMP (REDES DE COMPUTADORES) course
 
-Used application protocols are implementation independent.
+------------------------------------------------------------------------------------
+DISCLAIMER:  this code samples are intended for learning purpose, they were planned
+for easy reading in the communication protocols perspective. They are not expected
+to be efficient neither good samples of well-structured software. Error handling is
+frequently ignored for the sake of easing the code analysis within the purposed 
+objectives.
+------------------------------------------------------------------------------------
 
-Different implementations like C and Java can communicate with each other without any problem.
+Used application protocols are implementation independent, therefore different
+implementations like C and Java can communicate with each other without any problem.
 
 ------------------------------------------------------------------------------------
 Lesson 1 - send and receive UDP datagrams
