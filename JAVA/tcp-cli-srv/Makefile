@@ -1,6 +1,6 @@
 
-P1=TcpCliSoma
-P2=TcpSrvSoma
+P1=TcpCliSum
+P2=TcpSrvSum
 
 all: $(P1).class $(P2).class
 

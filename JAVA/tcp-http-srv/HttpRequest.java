@@ -245,9 +245,9 @@ for(File f : filesList)
 
 
 writeLineCRLF("HTTP/1.0 200 OK");
-writeLineCRLF("Content-type: text/html");
+writeLineCRLF("Content-Type: text/html");
 len=s1.length() + s2.length() + list.length();
-writeLineCRLF("Content-length: " + len);
+writeLineCRLF("Content-Length: " + len);
 writeLineCRLF("Connection: close");
 writeLineCRLF("");
 try {
@@ -265,9 +265,9 @@ String s2="<hr><p><a href=/>BACK</a></body></html>";
 int len;
 
 writeLineCRLF("HTTP/1.0 500 Internal Server Error");
-writeLineCRLF("Content-type: text/html");
+writeLineCRLF("Content-Type: text/html");
 len=s1.length() + s2.length() + error.length();
-writeLineCRLF("Content-length: " + len);
+writeLineCRLF("Content-Length: " + len);
 writeLineCRLF("Connection: close");
 writeLineCRLF("");
 try {

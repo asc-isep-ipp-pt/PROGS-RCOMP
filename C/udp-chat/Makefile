@@ -1,8 +1,10 @@
 CC=gcc
 CFLAGS="-Wall"
-PROGS=tcp_cli_sum tcp_srv_sum
+
+PROGS=udp_chat
 
 all: $(PROGS)
+
 
 clean:
 	rm -f $(PROGS)
