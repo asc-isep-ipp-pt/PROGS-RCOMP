@@ -9,39 +9,43 @@ private static int TIMEOUT=3;
 
 public static void main(String args[]) throws Exception    
 {       
+byte[] data = new byte[300];
+String frase;
+
 if(args.length!=1) 
 	{
-	System.out.println("Deve indicar o host de destino na linha de comando");
+	System.out.println("Server IPv4/IPv6 address or DNS name is required as argument");
 	System.exit(1);
 	}
 
 try { IPdestino = InetAddress.getByName(args[0]); }
 catch(UnknownHostException ex) {
-	System.out.println("O nome de host de destino fornecido (" + args[0] + ") nao foi resolvido");
+	System.out.println("Invalid server address supplied: "  + args[0]);
 	System.exit(1);
 	} 
 
 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 DatagramSocket sock = new DatagramSocket();
-sock.setSoTimeout(1000*TIMEOUT); /* definir o tempo limite do socket */
-byte[] data = new byte[300];
-String frase;
+sock.setSoTimeout(1000*TIMEOUT); // set the socket timeout
+
+DatagramPacket udpPacket = new DatagramPacket(data, data.length, IPdestino, 9999);
+
 while(true)
 	{
-	System.out.print("Frase a enviar (\"sair\" para terminar): ");
+	System.out.print("Request sentence to send (\"exit\" to quit): ");
 	frase = in.readLine();
-	if(frase.compareTo("sair")==0) break;
-	data = frase.getBytes();
-	DatagramPacket request = new DatagramPacket(data, frase.length(), IPdestino, 9999);
-	sock.send(request);
-	DatagramPacket reply = new DatagramPacket(data, data.length);
-        try {
-		sock.receive(reply);
-		frase = new String( reply.getData(), 0, reply.getLength());
-        	System.out.println("Resposta: " + frase);
-		}
-	catch(SocketTimeoutException ex)
-        	{System.out.println("Sem resposta do servidor");}
+	if(frase.compareTo("exit")==0) break;
+	udpPacket.setData(frase.getBytes());
+        udpPacket.setLength(frase.length());
+        sock.send(udpPacket);
+        udpPacket.setData(data);
+        udpPacket.setLength(data.length);
+	try {
+        	sock.receive(udpPacket);
+        	frase = new String( udpPacket.getData(), 0, udpPacket.getLength());
+        	System.out.println("Received reply: " + frase);
+	} catch(SocketTimeoutException ex)
+                {System.out.println("No reply from server");}
 	}
 sock.close();
 } 

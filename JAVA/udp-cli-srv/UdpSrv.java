@@ -8,28 +8,30 @@ public static void main(String args[]) throws Exception
 {          
 byte[] data = new byte[300];
 byte[] data1 = new byte[300];
-String frase;
-InetAddress clientIP;
-int res, i, clientPort;
+int i, len;
 
 try { sock = new DatagramSocket(9999); }
 catch(BindException ex)
                 {
-                System.out.println("O porto esta ocupado");
+                System.out.println("Bind to local port failed");
                 System.exit(1);
                 }
 
-System.out.println("A escutar pedidos. Use CTRL+C para terminar");
+DatagramPacket udpPacket= new DatagramPacket(data, data.length);
+
+System.out.println("Listening for UDP requests (both over IPv6 or IPv4). Use CTRL+C to terminate the server");
 while(true)                
 	{
-	DatagramPacket pedido= new DatagramPacket(data, data.length);
-	sock.receive(pedido);
-	clientIP=pedido.getAddress();
-	clientPort=pedido.getPort();
-	res=pedido.getLength();
-	for(i=0;i<res;i++) data1[res-1-i]=data[i];
-	DatagramPacket resposta=  new DatagramPacket(data1, res, clientIP, clientPort);
-	sock.send(resposta);
+	udpPacket.setData(data);
+	udpPacket.setLength(data.length);
+	sock.receive(udpPacket);
+	len=udpPacket.getLength();
+	System.out.println("Request from: " + udpPacket.getAddress().getHostAddress() +
+                        " port: " + udpPacket.getPort());
+	for(i=0;i<len;i++) data1[len-1-i]=data[i];
+	udpPacket.setData(data1);
+	udpPacket.setLength(len);
+	sock.send(udpPacket);
 	}
 }
 }

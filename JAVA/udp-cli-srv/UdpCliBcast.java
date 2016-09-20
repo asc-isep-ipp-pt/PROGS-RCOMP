@@ -7,26 +7,29 @@ static InetAddress IPdestino;
 
 public static void main(String args[]) throws Exception    
 {       
-
-BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-DatagramSocket sock = new DatagramSocket();
-sock.setBroadcast(true);
-IPdestino=InetAddress.getByName("255.255.255.255");
 byte[] data = new byte[300];
 String frase;
+IPdestino=InetAddress.getByName("255.255.255.255");
+
+DatagramSocket sock = new DatagramSocket();
+sock.setBroadcast(true);
+DatagramPacket udpPacket = new DatagramPacket(data, data.length, IPdestino, 9999);
+
+BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
 while(true)
 	{
-	System.out.print("Frase a enviar (\"sair\" para terminar): ");
+	System.out.print("Request sentence to send (\"exit\" to quit): ");
 	frase = in.readLine();
-	if(frase.compareTo("sair")==0) break;
-	data = frase.getBytes();
-	DatagramPacket request = new DatagramPacket(data, frase.length(), IPdestino, 9999);
-	sock.send(request);
-	DatagramPacket reply = new DatagramPacket(data, data.length);
-        sock.receive(reply);
-	IPdestino=reply.getAddress();
-	frase = new String( reply.getData(), 0, reply.getLength());
-        System.out.println("Resposta: " + frase);
+	if(frase.compareTo("exit")==0) break;
+	udpPacket.setData(frase.getBytes());
+        udpPacket.setLength(frase.length());
+        sock.send(udpPacket);
+        udpPacket.setData(data);
+        udpPacket.setLength(data.length);
+        sock.receive(udpPacket);
+        frase = new String( udpPacket.getData(), 0, udpPacket.getLength());
+        System.out.println("Received reply: " + frase);
 	}
 sock.close();
 } 

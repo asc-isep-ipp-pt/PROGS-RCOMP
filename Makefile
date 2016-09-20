@@ -1,5 +1,4 @@
 
-
 all:
 	(cd C; make)
 	(cd JAVA; make)

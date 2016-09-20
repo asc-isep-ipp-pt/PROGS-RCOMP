@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <strings.h>
 #include <string.h>
@@ -6,31 +7,49 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netdb.h>
 
-void main(void)
+#define BUF_SIZE 400
+#define SERVER_PORT "9999"
+
+int main(void)
 {
-struct sockaddr_in me, from;
-int newSock, sock, adl, i, j;
+struct sockaddr_storage from;
+int err, newSock, sock, i, j;
+unsigned int adl;
 unsigned char lsize;
-int num, soma, maxfd, newMaxfd;
-char linha[400];
+int maxfd, newMaxfd;
+char linha[BUF_SIZE], cliIPtext[BUF_SIZE], cliPortText[BUF_SIZE];
+struct addrinfo  req, *list;
 fd_set rfds, rfds_master;
 
-adl=sizeof(me);
-sock=socket(AF_INET,SOCK_STREAM,0);
+bzero((char *)&req,sizeof(req));
+req.ai_family = AF_INET6;       // requesting a IPv6 local address will allow both IPv4 and IPv6 clients to use it
+req.ai_socktype = SOCK_STREAM;	// TCP
+req.ai_flags = AI_PASSIVE;      // local address
 
-bzero((char *)&me, adl);
-me.sin_family=AF_INET;
-me.sin_addr.s_addr=htonl(INADDR_ANY);
-me.sin_port=htons(9999);
+err=getaddrinfo(NULL, SERVER_PORT , &req, &list);
 
-if(-1==bind(sock,(struct sockaddr *)&me, adl))
-	{ puts("Porto ocupado"); close(sock); exit(1);}
+if(err) {
+        printf("Failed to get local address, error: %s\n",gai_strerror(err)); exit(1); }
+
+sock=socket(list->ai_family,list->ai_socktype,list->ai_protocol);
+if(sock==-1) {
+        perror("Failed to open socket"); freeaddrinfo(list); exit(1);}
+
+if(bind(sock,(struct sockaddr *)list->ai_addr, list->ai_addrlen)==-1) {
+        perror("Bind failed");close(sock);freeaddrinfo(list);exit(1);}
+
+freeaddrinfo(list);
 
 listen(sock,SOMAXCONN);
 FD_ZERO(&rfds_master);
 FD_SET(sock,&rfds_master);
 newMaxfd=sock;
+
+puts("Accepting TCP connections (both over IPv6 or IPv4). Use CTRL+C to terminate the server");
+
+adl=sizeof(from);
 for(;;)
         {
         maxfd=newMaxfd;
@@ -43,6 +62,8 @@ for(;;)
                 if(i==sock)
                         {
                         newSock=accept(sock,(struct sockaddr *)&from,&adl);
+			getnameinfo((struct sockaddr *)&from,adl,cliIPtext,BUF_SIZE,cliPortText,BUF_SIZE,NI_NUMERICHOST|NI_NUMERICSERV);
+                	printf("New connection from node %s, port number %s\n", cliIPtext, cliPortText);
                         FD_SET(newSock,&rfds_master);
                         if(newSock>newMaxfd) newMaxfd=newSock;
                         }
@@ -50,7 +71,7 @@ for(;;)
                         {
                         read(i,&lsize,1);
                         if(!lsize) { FD_CLR(i,&rfds_master); 
-					write(i,&lsize,1);close(i);}
+					write(i,&lsize,1);close(i);puts("One client disconnected");}
                         else
                                 {
                                 read(i,linha,lsize);
@@ -66,5 +87,6 @@ for(;;)
                         }
                 }
         }
+exit(0);
 }
 

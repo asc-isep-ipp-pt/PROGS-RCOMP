@@ -13,17 +13,17 @@ String nick, frase;
 byte[] data = new byte[300];
 
 if(args.length!=1) {
-     System.out.println("Deve indicar o servidor na linha de comando");
+     System.out.println("Server IPv4/IPv6 address or DNS name is required as argument");
      System.exit(1); }
 
 try { IPdestino = InetAddress.getByName(args[0]); }
 catch(UnknownHostException ex) {
-   System.out.println("O nome do servidor fornecido (" + args[0] + ") nao e valido");
+   System.out.println("Invalid server: " + args[0]);
     System.exit(1); }
 
 try { sock = new Socket(IPdestino, 9999); }
 catch(IOException ex) {
-   System.out.println("A ligacao TCP com o servidor falhou.");
+   System.out.println("Failed to connect.");
    System.exit(1); }
 
 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -38,7 +38,7 @@ serverConn.start();
 while(true)
 	{
 	frase=in.readLine();
-	if(frase.compareTo("sair")==0) 
+	if(frase.compareTo("exit")==0) 
 		{ sOut.write(0); break;}
 	frase="(" + nick + ") " + frase;
 	data = frase.getBytes();
@@ -76,6 +76,6 @@ while(true)
    frase = new String( data, 0, nChars);
    System.out.println(frase);
    }
-} catch(IOException ex) { System.out.println("Ligacao TCP terminada."); }
+} catch(IOException ex) { System.out.println("Client disconnected."); }
 }
 }

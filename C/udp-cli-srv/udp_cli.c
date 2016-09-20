@@ -1,48 +1,70 @@
 #include <strings.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netdb.h>
 
-// ler do stdin uma frase com menos de S carateres para o buffer B
+#define BUF_SIZE 300
+#define SERVER_PORT "9999"
+
+// read a string from stdin protecting buffer overflow
 #define GETS(B,S) {fgets(B,S-2,stdin);B[strlen(B)-1]=0;}
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-struct sockaddr_in me, server;
-int sock, adl, res;
-char linha[300];
+struct sockaddr_storage serverAddr;
+int sock, res, err;
+unsigned int serverAddrLen;
+char linha[BUF_SIZE];
+struct addrinfo  req, *list;
 
 if(argc!=2) 
 	{
-	puts("Falta indicar na linha de comando o endereço IPv4 do servidor");
+	puts("Server IPv4/IPv6 address or DNS name is required as argument");
 	exit(1);
 	}
-sock=socket(AF_INET,SOCK_DGRAM,0);
-adl=sizeof(me);
 
-bzero((char *)&me,adl);
-me.sin_family=AF_INET;
-me.sin_addr.s_addr=htonl(INADDR_ANY); /* endereco IP local */
-me.sin_port=htons(0); /* porto local (0=auto assign) */
-bind(sock,(struct sockaddr *)&me,adl);
+bzero((char *)&req,sizeof(req));
+req.ai_family = AF_UNSPEC;		// let getaddrinfo set the family depending on the supplied server address
+req.ai_socktype = SOCK_DGRAM;
+err=getaddrinfo(argv[1], SERVER_PORT , &req, &list);
+if(err) {
+        printf("Failed to get server address, error: %s\n",gai_strerror(err)); exit(1); }
+serverAddrLen=list->ai_addrlen;
+memcpy(&serverAddr,list->ai_addr,serverAddrLen);  // store the server address for later use when sending requests
+freeaddrinfo(list);
 
-bzero((char *)&server,adl);
-server.sin_family=AF_INET;
-server.sin_addr.s_addr=inet_addr(argv[1]); /* endereco IP do servidor */
-server.sin_port=htons(9999); /* porto do servidor */
+bzero((char *)&req,sizeof(req));
+req.ai_family = serverAddr.ss_family;	// for the local address, request the same family determined for the server address
+req.ai_socktype = SOCK_DGRAM;
+req.ai_flags = AI_PASSIVE;			// local address
+err=getaddrinfo(NULL, "0" , &req, &list);	// port 0 = auto assign
+if(err) {
+        printf("Failed to get local address, error: %s\n",gai_strerror(err)); exit(1); }
+
+sock=socket(list->ai_family,list->ai_socktype,list->ai_protocol);
+if(sock==-1) {
+	perror("Failed to open socket"); freeaddrinfo(list); exit(1);}
+if(bind(sock,(struct sockaddr *)list->ai_addr, list->ai_addrlen)==-1) { 
+	perror("Failed to bind socket");close(sock);freeaddrinfo(list);exit(1);}
+
+freeaddrinfo(list);
+
 while(1)
 	{
-	printf("Frase a enviar (\"sair\" para terminar): ");
-        GETS(linha,300);
-	if(!strcmp(linha,"sair")) break;
-	sendto(sock,linha,strlen(linha),0,(struct sockaddr *)&server,adl);
-	res=recvfrom(sock,linha,300,0,(struct sockaddr *)&server,&adl);
+	printf("Request sentence to send (\"exit\" to quit): ");
+        GETS(linha,BUF_SIZE);
+	if(!strcmp(linha,"exit")) break;
+	sendto(sock,linha,strlen(linha),0,(struct sockaddr *)&serverAddr,serverAddrLen);
+	res=recvfrom(sock,linha,BUF_SIZE,0,(struct sockaddr *)&serverAddr,&serverAddrLen);
         linha[res]=0; /* NULL terminate the string */
-        printf("Recebido: %s\n",linha);
+	printf("Received reply: %s\n",linha);
         }
 close(sock);
+exit(0);
 }

@@ -1,12 +1,13 @@
+CC=gcc
 
-P1=tcp_srv_http
+P=tcp_srv_http
 
-all: $(P1)
+all: $(P)
 
-$(P1): $(P1).c http_get.c http_post.c aux.c
-	$(CC) -o $(P1) $(P1).c
+$(P): $(P).c http_get.c http_post.c aux.c
+	$(CC) -o $(P) $(P).c
 
 
 clean:
-	rm -f $(P1)
+	rm -f $(P)
 

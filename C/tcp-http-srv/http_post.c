@@ -81,11 +81,10 @@ if(!f) {
 	replyPostError(sock, line);
 	}
 
-// SUBTRACT THE SEPARATOR LENGHT, AND -- ON START AND -- ON END PLUS CRLF
+// SUBTRACT THE SEPARATOR LENGHT, PLUS -- ON START PLUS -- ON END PLUS CRLF
 len=len-strlen(separator)-6;
 
 // FILE CONTENT
-
 do
         {
 	if(len>200) readNow=200; else readNow=len;
@@ -124,7 +123,7 @@ struct dirent *e;
 int len;
 
 writeLineCRLF(sock,"HTTP/1.0 200 OK");
-writeLineCRLF(sock,"Content-type: text/html");
+writeLineCRLF(sock,"Content-Type: text/html");
 d=opendir ("www/");
 if(!d) replyPostError(sock,"Failed to open directory for listing");
 *list=0;
@@ -136,7 +135,7 @@ do
 	}
 while(e);
 len=strlen(s1)+strlen(s2)+strlen(list);
-sprintf(line,"Content-length: %i",len);
+sprintf(line,"Content-Length: %i",len);
 writeLineCRLF(sock,line);
 writeLineCRLF(sock,"Connection: close");
 writeLineCRLF(sock,"");
@@ -156,9 +155,9 @@ char *s2="<hr><p><a href=/>BACK</a></body></html>";
 char line[200];
 int len;
 writeLineCRLF(sock,"HTTP/1.0 500 Internal Server Error");
-writeLineCRLF(sock,"Content-type: text/html");
+writeLineCRLF(sock,"Content-Type: text/html");
 len=strlen(s1)+strlen(s2)+strlen(error);
-sprintf(line,"Content-length: %i",len);
+sprintf(line,"Content-Length: %i",len);
 writeLineCRLF(sock,line);
 writeLineCRLF(sock,"Connection: close");
 writeLineCRLF(sock,"");

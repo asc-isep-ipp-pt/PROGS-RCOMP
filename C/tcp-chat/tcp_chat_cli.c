@@ -10,35 +10,42 @@
 #include <sys/ioctl.h>
 #include <netdb.h>
 
-// ler do stdin uma frase com menos de S carateres para o buffer B
+#define BUF_SIZE 300
+#define SERVER_PORT "9999"
+
+// read a string from stdin protecting buffer overflow
 #define GETS(B,S) {fgets(B,S-2,stdin);B[strlen(B)-1]=0;}
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-struct sockaddr_in target;
-struct hostent *he;
-int sock, timeout;
+int err, sock;
 unsigned char lsize;
-char nick[50], linha[180], buff[200];
+char nick[BUF_SIZE], linha[BUF_SIZE], buff[BUF_SIZE];
+struct addrinfo  req, *list;
 fd_set rfds;
 
 
-if(argc!=2) {puts("falta indicar o nome do servidor");exit(1);}
+if(argc!=2) {
+        puts("Server IPv4/IPv6 address or DNS name is required as argument");
+        exit(1); }
 
-he=gethostbyname(argv[1]);
-if(!he) {printf("Falhou a resolução do nome %s\n",argv[1]);exit(1);}
+bzero((char *)&req,sizeof(req));
+req.ai_family = AF_UNSPEC;              // let getaddrinfo set the family depending on the supplied server address
+req.ai_socktype = SOCK_STREAM;
+err=getaddrinfo(argv[1], SERVER_PORT , &req, &list);
+if(err) {
+        printf("Failed to get server address, error: %s\n",gai_strerror(err)); exit(1); }
 
-sock=socket(AF_INET,SOCK_STREAM,0);
+sock=socket(list->ai_family,list->ai_socktype,list->ai_protocol);
+if(sock==-1) {
+        perror("Failed to open socket"); freeaddrinfo(list); exit(1);}
 
-bzero((char *)&target,sizeof(target));
-target.sin_family = AF_INET;
-target.sin_addr=*(struct in_addr *)he->h_addr_list[0];
-target.sin_port=htons(9999);
+if(connect(sock,(struct sockaddr *)list->ai_addr, list->ai_addrlen)==-1) {
+        perror("Failed connect"); freeaddrinfo(list); close(sock); exit(1);}
 
-if(connect(sock,(struct sockaddr *)&target, sizeof(target))==-1) {
-        puts("A ligação falhou"); close(sock); exit(1); }
+freeaddrinfo(list);
 
-printf("Nickname:");GETS(nick,50);
+printf("Connected, enter nickname: ");GETS(nick,BUF_SIZE);
 
     for(;;) {
         FD_ZERO(&rfds);
@@ -46,8 +53,8 @@ printf("Nickname:");GETS(nick,50);
         select(sock+1,&rfds,NULL,NULL,NULL);
         if(FD_ISSET(0,&rfds))
                 {
-                GETS(linha,300);
-                if(!strcmp(linha,"sair"))
+                GETS(linha,BUF_SIZE);
+                if(!strcmp(linha,"exit"))
                         {
                         lsize=0;
                         write(sock,&lsize,1);
@@ -67,7 +74,7 @@ printf("Nickname:");GETS(nick,50);
                 puts(buff);
                 }
       }
-
-    close(sock);
-    }
+close(sock);
+exit(0);
+}
 

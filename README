@@ -13,28 +13,11 @@ Used application protocols are implementation independent, therefore different
 implementations like C and Java can communicate with each other without any problem.
 
 ------------------------------------------------------------------------------------
-Lesson 1 - send and receive UDP datagrams
-
-C/udp-snd-rcv/udp_snd.c
-JAVA/udp-snd-rcv/UdpSnd.java
-				(1) Reads a string from keyboard and sends its content inside a
-				UDP datagram.
-				Exits if the sent string was "sair", otherwise repeat (1)
-
-C/udp-snd-rcv/udp_rcv.c
-JAVA/udp-snd-rcv/UdpRcv.java
-				(1) Receives a UDP datagram and prints its content as a string.
-				Exits if the received string was "sair", otherwise repeat (1)
-
-C/udp-snd-rcv/udp_rcv1.c
-JAVA/udp-snd-rcv/UdpRcv1.java
-				Same as previous, but also prints IPv4 source address and port number.
-
-------------------------------------------------------------------------------------
-Lesson 2 - UDP client and server
+Lesson 1 - UDP client and server
 
 C/udp-cli-srv/udp_srv.c
 JAVA/udp-cli-srv/UdpSrv.java
+				Supports both IPv4 and IPv6
 				(1) Receives a UDP datagram and stores its content in a string.
 				Reverse the string.
 				Sends the reversed string inside a UDP datagram to the
@@ -43,19 +26,28 @@ JAVA/udp-cli-srv/UdpSrv.java
 
 C/udp-cli-srv/udp_cli.c
 JAVA/udp-cli-srv/UdpCli.java
-				Get the server IPv4 address as first argument in the command line.
-				(Java version can also cope with DNS hostname)
-				(1) Reads a string from keyboard, exits if string is "sair".
-				Sends the string inside a UDP datagram.
+				Get the server address as first argument in the command line.
+				Server address can be either a DNS hostname, an IPv4 address
+				or an IPv6 address.
+				(1) Reads a string from keyboard, exits if string is "exit",
+				otherwise sends the string inside a UDP datagram.
 				Receives a UDP datagram and prints it contents as a string.
 				Repeat (1).
+
+
+
+------------------------------------------------------------------------------------
+Lesson 2 - Reception timeout and UDP broadcast
+
 
 C/udp-cli-srv/udp_cli_bcast.c
 JAVA/udp-cli-srv/UdpCliBcast.java
 
 				Same as previous client but no arguments because UDP
 				first request is sent in broadcast (255.255.255.255).
-				Next requests are sent to unicast address of the
+				Operates only over IPv4 (in IPv6 there is no broadcast address).
+				Only the first request is sent to the broadcast address,
+				next requests are sent to unicast address of the
 				server that replies to the first request.
 
 C/udp-cli-srv/udp_cli_to.c
@@ -63,7 +55,7 @@ JAVA/udp-cli-srv/UdpCliTo.java
 
 				Same as first client but with timeout, if there is
 				no reply from the server it does not hang forever as
-				previous clients (C version uses non-blocking socket).
+				previous clients.
 
 ------------------------------------------------------------------------------------
 Lesson 3 - TCP client and server
@@ -71,10 +63,10 @@ Lesson 3 - TCP client and server
 C/tcp-cli-srv/tcp_srv_soma.c
 JAVA/tcp-cli-srv/TcpSrvSoma.java
 
-				Accepts TCP connections, on each connection receives 
-				unsigned integer numbers in the form of 4 bytes, 
-				LSB (“Least Significant Byte”) first, until integer 
-				zero is received.
+				Accepts TCP connections, either over IPv4 or IPv6,
+				on each connection receives unsigned integer numbers
+				in the form of 4 bytes, LSB (“Least Significant Byte”)
+				first, until integer zero is received.
 				When zero is received reply to client with the sum
 				result in the same form (4 bytes).
 				If first number received is zero closes the connection with
@@ -83,24 +75,16 @@ JAVA/tcp-cli-srv/TcpSrvSoma.java
 
 JAVA/tcp-cli-srv/TcpCliSoma.java
 C/tcp-cli-srv/tcp_cli_soma.c
-				Get the server IPv4 address as first argument in the command line.
-				(Java version can also cope with DNS hostname)
+				Get the server address as first argument in the command line.
+				Server address can be either a DNS hostname, an IPv4 address
+				or an IPv6 address.
 				Establish a TCP connection with the server, read unsigned integers
 				from keyboard and send then to the server in the form above specified.
 				when the number is zero read the result from the server.
 				If first number entered is zero, send it to the server and exit.
 
-C/tcp-cli-srv/tcp_cli_soma_n.c
-				Same as above but copes with DNS hostnames
-
-
 ------------------------------------------------------------------------------------
-Lesson 4 - asynchronous reception
-
-C/udp-cli-srv/udp_cli_to_sel.c
-
-				UDP client compatible with previous UDP server sample
-				timeout now implemented with the select system-call.
+Lesson 4 - asynchronous reception, a TCP CHAT client and server
 
 C/udp-cli-srv/udp_srv_mport.c
 JAVA/udp-cli-srv/UdpSrvMport.java
@@ -109,13 +93,8 @@ JAVA/udp-cli-srv/UdpSrvMport.java
 				is able to receive requests in a set of alternative
 				port numbers.
 
-
-------------------------------------------------------------------------------------
-Lesson 5 - CHAT client and server
-
 C/tcp-chat/tcp_chat_srv.c
 JAVA/tcp-chat/TcpChatSrv.java
-
 				Accepts TCP connections, on all active connections
 				receives strings as follows: 1st a byte with the
 				number of characters in the string and then the
@@ -127,9 +106,9 @@ JAVA/tcp-chat/TcpChatSrv.java
 
 C/tcp-chat/tcp_chat_cli.c
 JAVA/tcp-chat/TcpChatCli.java
-
-				Get the server IPv4 address or DNS hostname as first
-				argument in the command line.
+				Get the server address as first argument in the command line.
+				Server address can be either a DNS hostname, an IPv4 address
+				or an IPv6 address.
 				Connect to the server and read the nickname from keyboard.
 				If a string is entered by keyboard, send the nickname and
 				the string to the server (in the form described above).
@@ -138,16 +117,19 @@ JAVA/tcp-chat/TcpChatCli.java
 				If a string is received from the server (in the form
 				described above) print it on the screen.
 
+
+JAVA/tcp-chat/TcpChatSrvST.java
+				Single thread version of the TCP CHAT server.
+
+
 JAVA/tcp-chat/TcpChatCliGui.java
 
 				Same as above Java client but with GUI (swing).
-				Server IPv4 address or DNS hostname is prompted
-				in a dialog box.
-
+				Server address is prompted in a dialog box.
 
 
 ------------------------------------------------------------------------------------
-Lesson 6 - simple HTTP server
+Lesson 5 - a simple HTTP server and a peer-to-peer CHAT application
 
 C/tcp-http-srv/tcp_http_srv.c
 JAVA/tcp-http-srv/TcpHttpSrv.java
@@ -160,6 +142,10 @@ JAVA/tcp-http-srv/TcpHttpSrv.java
 				Reply to POST for /upload and /list:
 				/upload to upload files with multipart/form-data
 				/list to list the folder files
+
+
+C/udp-chat/udp_chat.c
+JAVA/udp-chat/UdpChat.java
 
 
 

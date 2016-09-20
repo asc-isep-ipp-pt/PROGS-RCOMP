@@ -11,7 +11,7 @@ char *type;
 int done;
 FILE *f;
 
-do
+do	// READ AND IGNORE HEADER LINES
 	{
 	readLineCRLF(sock,line);
 	}
@@ -19,7 +19,7 @@ while(*line);
 aux=file;
 while(*aux!=32) aux++; *aux=0;
 if(*file=='/') file++;
-if(!*file) strcpy(file,"index.html");
+if(!*file) strcpy(file,"index.html"); // DEFAULT FILE IS index.html
 strcpy(filePath,"www/");
 strcat(filePath,file);
 f=fopen(filePath,"r");
@@ -54,9 +54,9 @@ sprintf(line,"HTTP/1.0 %s",reply);
 writeLineCRLF(sock,line);
 fseek(f,0,SEEK_END);
 len=ftell(f);
-sprintf(line,"Content-length: %li",len);
+sprintf(line,"Content-Length: %li",len);
 writeLineCRLF(sock,line);
-sprintf(line,"Content-type: %s",type);
+sprintf(line,"Content-Type: %s",type);
 writeLineCRLF(sock,line);
 writeLineCRLF(sock,"Connection: close");
 writeLineCRLF(sock,"");
