@@ -29,7 +29,7 @@ JAVA/udp-cli-srv/UdpCli.java
 				Get the server address as first argument in the command line.
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
-				(1) Reads a string from keyboard, exits if string is "exit",
+				(1) Reads a string from keyboard, exits if the string is "exit",
 				otherwise sends the string inside a UDP datagram.
 				Receives a UDP datagram and prints it contents as a string.
 				Repeat (1).
@@ -47,15 +47,16 @@ JAVA/udp-cli-srv/UdpCliBcast.java
 				first request is sent in broadcast (255.255.255.255).
 				Operates only over IPv4 (in IPv6 there is no broadcast address).
 				Only the first request is sent to the broadcast address,
-				next requests are sent to unicast address of the
+				next requests are sent to the unicast address of the
 				server that replies to the first request.
 
 C/udp-cli-srv/udp_cli_to.c
 JAVA/udp-cli-srv/UdpCliTo.java
 
-				Same as first client but with timeout, if there is
+				Same as the first UDP client but with timeout, if there is
 				no reply from the server it does not hang forever as
 				previous clients.
+
 
 ------------------------------------------------------------------------------------
 Lesson 3 - TCP client and server
@@ -78,20 +79,23 @@ C/tcp-cli-srv/tcp_cli_soma.c
 				Get the server address as first argument in the command line.
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
-				Establish a TCP connection with the server, read unsigned integers
+				Establish a TCP connection to the server, read unsigned integers
 				from keyboard and send then to the server in the form above specified.
 				when the number is zero read the result from the server.
-				If first number entered is zero, send it to the server and exit.
+				If the first number entered is zero, send it to the server and exit.
+
 
 ------------------------------------------------------------------------------------
-Lesson 4 - asynchronous reception, a TCP CHAT client and server
+Lesson 4 - asynchronous reception, a TCP CHAT client, and server
 
 C/udp-cli-srv/udp_srv_mport.c
 JAVA/udp-cli-srv/UdpSrvMport.java
 
 				UDP server compatible with previous UDP clients that
 				is able to receive requests in a set of alternative
-				port numbers.
+				port numbers. The C version makes use of the select()
+				function while the Java version uses multiple threads.
+
 
 C/tcp-chat/tcp_chat_srv.c
 JAVA/tcp-chat/TcpChatSrv.java
@@ -99,7 +103,7 @@ JAVA/tcp-chat/TcpChatSrv.java
 				receives strings as follows: 1st a byte with the
 				number of characters in the string and then the
 				string itself.
-				For each stings received retransmits it to every
+				For each string received retransmits it to every
 				active connection, using the form specified above.
 				If the string received is empty send it back to
 				than client and closes that clients connection.
@@ -109,17 +113,18 @@ JAVA/tcp-chat/TcpChatCli.java
 				Get the server address as first argument in the command line.
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
-				Connect to the server and read the nickname from keyboard.
+				Connect to the server and read the nickname from the keyboard.
 				If a string is entered by keyboard, send the nickname and
 				the string to the server (in the form described above).
-				If the string typed at keyboard is "sair", send an empty
+				If the string typed at keyboard is "exit", send an empty
 				string to the server, wait for an empty reply and exit.
 				If a string is received from the server (in the form
 				described above) print it on the screen.
 
 
 JAVA/tcp-chat/TcpChatSrvST.java
-				Single thread version of the TCP CHAT server.
+				Single thread Java version of the TCP CHAT server, based
+				on polling connected sockets with a low timeout read.
 
 
 JAVA/tcp-chat/TcpChatCliGui.java
@@ -146,7 +151,20 @@ JAVA/tcp-http-srv/TcpHttpSrv.java
 
 C/udp-chat/udp_chat.c
 JAVA/udp-chat/UdpChat.java
-
+				Gets a nickname from the user. 
+				Manages a list of active peers. At startup one UDP
+				datagram is sent to the broadcast address to announce
+				itself, this is the peer start announcement.
+				Also when a new peer start announcement is received a
+				peer start announcement is sent back. Before exiting a
+				peer exit announcement is sent to each active peer.
+				Other received UDP datagrams that are not a peer start
+				announcements neither peer exit announcements are supposed
+				to be text messages and are printed at the console.
+				When the user enters a text line at the console, it is
+				sent to each active peer in active peer list.
+				If the typed line is EXIT the peer application exits,
+				if it is LIST, then a list of active peers is printed.
 
 
 ------------------------------------------------------------------------------------
