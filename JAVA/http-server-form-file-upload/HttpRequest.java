@@ -10,15 +10,12 @@ class HttpRequest implements Runnable {
 	public HttpRequest(Socket cli_s, String folder) { s=cli_s; baseFolder=folder;}
 
 	public void run() {
-		long f,i,num,soma;
-		String request;
-		String line;
 		try {
 			sOut = new DataOutputStream(s.getOutputStream());
 			sIn = new DataInputStream(s.getInputStream());
 			}
 		catch(IOException ex) { System.out.println("Data Stream IOException"); }
-		request=HTTP.readLineCRLF(sIn);
+		String request=HTTP.readLineCRLF(sIn);
 		// System.out.println("Request: " + request);
 		if(request.startsWith("POST /upload")) processPostUpload();
 		else
@@ -90,7 +87,7 @@ class HttpRequest implements Runnable {
 				replyPostError("Content-Disposition: form-data; expected and not found (NO FILENAME)");
 				return;
 				}
-			filePath="www/"+filename;
+			filePath=baseFolder+"/"+filename;
 			f = new File(filePath);
 			fOut = new FileOutputStream(f);
 

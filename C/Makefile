@@ -1,4 +1,4 @@
-APPS_FOLDERS=tcp-chat tcp-cli-srv tcp-http-srv udp-chat udp-cli-srv
+APPS_FOLDERS=tcp-chat tcp-cli-srv udp-chat udp-cli-srv http-server-ajax-voting  http-server-form-file-upload
 
 all: 
 	 $(foreach AF,$(APPS_FOLDERS),(cd $(AF); make );)

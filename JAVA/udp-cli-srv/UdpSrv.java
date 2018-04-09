@@ -1,11 +1,11 @@
-import java.io.*; 
-import java.net.*; 
+import java.io.*;
+import java.net.*;
 
 class UdpSrv
-{    
+{
 static DatagramSocket sock;
-public static void main(String args[]) throws Exception       
-{          
+public static void main(String args[]) throws Exception
+{
 byte[] data = new byte[300];
 byte[] data1 = new byte[300];
 int i, len;
@@ -20,19 +20,19 @@ catch(BindException ex)
 DatagramPacket udpPacket= new DatagramPacket(data, data.length);
 
 System.out.println("Listening for UDP requests (both over IPv6 or IPv4). Use CTRL+C to terminate the server");
-while(true)                
-	{
-	udpPacket.setData(data);
-	udpPacket.setLength(data.length);
-	sock.receive(udpPacket);
-	len=udpPacket.getLength();
-	System.out.println("Request from: " + udpPacket.getAddress().getHostAddress() +
+while(true)
+        {
+        udpPacket.setData(data);
+        udpPacket.setLength(data.length);
+        sock.receive(udpPacket);
+        len=udpPacket.getLength();
+        System.out.println("Request from: " + udpPacket.getAddress().getHostAddress() +
                         " port: " + udpPacket.getPort());
-	for(i=0;i<len;i++) data1[len-1-i]=data[i];
-	udpPacket.setData(data1);
-	udpPacket.setLength(len);
-	sock.send(udpPacket);
-	}
+        for(i=0;i<len;i++) data1[len-1-i]=data[i];
+        udpPacket.setData(data1);
+        udpPacket.setLength(len);
+        sock.send(udpPacket);
+        }
 }
 }
 

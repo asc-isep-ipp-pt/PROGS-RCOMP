@@ -3,8 +3,6 @@ import java.net.*;
 
 class HttpServerFormFileUpload {    
 	static private final String BASE_FOLDER="www";
-
-	static private InetAddress IPdestino;
 	static private ServerSocket sock;
 
 	public static void main(String args[]) throws Exception {

@@ -134,7 +134,7 @@ JAVA/tcp-chat/TcpChatCliGui.java
 
 
 ------------------------------------------------------------------------------------
-Lesson 5 - a simple HTTP server and a peer-to-peer CHAT application
+Lesson 5 - demo HTTP servers and a peer-to-peer CHAT application
 
 C/tcp-http-srv/tcp_http_srv.c
 JAVA/tcp-http-srv/TcpHttpSrv.java
