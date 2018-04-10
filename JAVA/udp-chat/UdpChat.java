@@ -1,148 +1,120 @@
 import java.io.*; 
 import java.net.*; 
-import java.util.concurrent.*;
+import java.util.HashSet;
 
-class UdpChat
-{    
-public static int MAXCLI=100;
-public static Boolean[] peerActive= new Boolean[MAXCLI];
-public static InetAddress[] peerAddress= new InetAddress[MAXCLI];
+class UdpChat {    
 
-public static Semaphore changeLock = new Semaphore(1);
+	private static final String BCAST_ADDR = "255.255.255.255";
+	private static final int SERVICE_PORT = 9999;
 
-static InetAddress bcastAddress;
-static DatagramSocket sock;
+	private static HashSet<InetAddress> peersList = new HashSet<>();
 
-public static void main(String args[]) throws Exception {
- String nick, frase;
- byte[] data = new byte[300];
- byte[] fraseData;
- int i;
- DatagramPacket udpPacket;
+	public static synchronized void addIP(InetAddress ip) { peersList.add(ip);}
 
- try { sock = new DatagramSocket(9999); }
- catch(IOException ex) {
-   System.out.println("Failed to open local port");
-   System.exit(1); }
+	public static synchronized void remIP(InetAddress ip) { peersList.remove(ip);}
 
- BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
- System.out.print("Nickname: "); nick = in.readLine();
-
- for(i=0; i<MAXCLI; i++) peerActive[i]=false;
-
- bcastAddress=InetAddress.getByName("255.255.255.255");
- sock.setBroadcast(true);
- data[0]=1;
- udpPacket = new DatagramPacket(data, 1, bcastAddress, 9999);
- sock.send(udpPacket);
-
- Thread udpReceiver = new Thread(new UdpChatReceive(sock));
- udpReceiver.start();
-
- while(true)
-  {
-  frase=in.readLine();
-  if(frase.compareTo("EXIT")==0) break;
-  if(frase.compareTo("LIST")==0)
-	{
-	System.out.print("Active peers:");
-	changeLock.acquire();
-	for(i=0; i<MAXCLI; i++) 
-		if(peerActive[i]) System.out.print(" " + peerAddress[i].getHostAddress());
-	changeLock.release();
-	System.out.println("");
-	}
-  else
-	{
-	frase="(" + nick + ") " + frase;
-	fraseData = frase.getBytes();
-	udpPacket.setData(fraseData);
-	udpPacket.setLength(frase.length());
-	changeLock.acquire();
-	for(i=0; i<MAXCLI; i++) 
-		if(peerActive[i])
-			{
-			udpPacket.setAddress(peerAddress[i]);
-			sock.send(udpPacket);
+	public static synchronized void printIPs() { 
+		for(InetAddress ip: peersList) {
+			System.out.print(" " + ip.getHostAddress());
 			}
-	changeLock.release();
-	}
-  }
+		}
 
- data[0]=0;
- udpPacket.setData(data);
- udpPacket.setLength(1);
- for(i=0; i<MAXCLI; i++) 
-	if(peerActive[i])
-		{
-		udpPacket.setAddress(peerAddress[i]);
+	public static synchronized void sendToAll(DatagramSocket s, DatagramPacket p) throws Exception { 
+		for(InetAddress ip: peersList) {
+			p.setAddress(ip);
+			s.send(p);
+			}
+		}
+
+	static InetAddress bcastAddress;
+	static DatagramSocket sock;
+
+	public static void main(String args[]) throws Exception {
+ 		String nick, frase;
+ 		byte[] data = new byte[300];
+ 		byte[] fraseData;
+ 		int i;
+		DatagramPacket udpPacket;
+
+		try { sock = new DatagramSocket(SERVICE_PORT); }
+		catch(IOException ex) {
+			System.out.println("Failed to open local port");
+			System.exit(1); }
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+		System.out.print("Nickname: "); nick = in.readLine();
+
+		bcastAddress=InetAddress.getByName(BCAST_ADDR);
+		sock.setBroadcast(true);
+		data[0]=1;
+		udpPacket = new DatagramPacket(data, 1, bcastAddress, SERVICE_PORT);
 		sock.send(udpPacket);
-		}
- sock.close();
- udpReceiver.join();
- } 
-}
 
+		Thread udpReceiver = new Thread(new UdpChatReceive(sock));
+		udpReceiver.start();
 
-
-class UdpChatReceive implements Runnable 
-{    
-private DatagramSocket s;
-
-public UdpChatReceive(DatagramSocket udp_s) { s=udp_s;}
-
-public void run() {
- int i;
- byte[] data = new byte[300];
- String frase;
- DatagramPacket p;
- InetAddress currPeerAddress;
-
- p=new DatagramPacket(data, data.length);
-
- while(true)
-   {
-   p.setLength(data.length);
-   try { s.receive(p); } catch(IOException ex) { return; }
-   currPeerAddress=p.getAddress();
-   if(data[0]==1)
-	{
-	try { UdpChat.changeLock.acquire(); } catch(InterruptedException ex) { System.out.println("Interrupted"); }
-	for(i=0; i<UdpChat.MAXCLI; i++)
-           if(UdpChat.peerActive[i])
-             if(currPeerAddress.equals(UdpChat.peerAddress[i])) break;
-	if(i==UdpChat.MAXCLI) // new peer
-	   {
-	   for(i=0; i<UdpChat.MAXCLI; i++) if(!UdpChat.peerActive[i]) break;
-	   if(i==UdpChat.MAXCLI) System.out.println("Sorry, no room for more peers");
-	   else
-		{
-		UdpChat.peerActive[i]=true;
-		UdpChat.peerAddress[i]=currPeerAddress;
-		}
-	   }
-	UdpChat.changeLock.release();
-	data[0]=1;
-	p.setAddress(currPeerAddress); // send back an announcement
-	p.setLength(1);
-	try { s.send(p); } catch(IOException ex) { return; }
+		while(true) { // handle user inputs
+  			frase=in.readLine();
+			if(frase.compareTo("EXIT")==0) break;
+			if(frase.compareTo("LIST")==0) {
+				System.out.print("Active peers:");
+				printIPs();
+				System.out.println("");
+				}
+  			else {
+				frase="(" + nick + ") " + frase;
+				fraseData = frase.getBytes();
+				udpPacket.setData(fraseData);
+				udpPacket.setLength(frase.length());
+				sendToAll(sock,udpPacket);
+				}
+  			}
+		data[0]=0; // announce I'm leaving
+		udpPacket.setData(data);
+		udpPacket.setLength(1);
+		sendToAll(sock,udpPacket);
+		sock.close();
+		udpReceiver.join(); // wait for the thread to end
+		} 
 	}
-   else
-   if(data[0]==0)
-	{
-	try { UdpChat.changeLock.acquire(); } catch(InterruptedException ex) { System.out.println("Interrupted"); }
-	for(i=0; i<UdpChat.MAXCLI; i++)
-           if(UdpChat.peerActive[i])
-             if(currPeerAddress.equals(UdpChat.peerAddress[i])) break;
-	if(i<UdpChat.MAXCLI) UdpChat.peerActive[i]=false;
-	UdpChat.changeLock.release();
+
+
+
+class UdpChatReceive implements Runnable {    
+	private DatagramSocket s;
+
+	public UdpChatReceive(DatagramSocket udp_s) { s=udp_s;}
+
+	public void run() {
+		int i;
+		byte[] data = new byte[300];
+		String frase;
+		DatagramPacket p;
+		InetAddress currPeerAddress;
+
+		p=new DatagramPacket(data, data.length);
+
+		while(true) {
+   			p.setLength(data.length);
+   			try { s.receive(p); }
+			catch(IOException ex) { return; }
+   			currPeerAddress=p.getAddress();
+			
+   			if(data[0]==1) { // peer start
+				UdpChat.addIP(p.getAddress());
+				try { s.send(p); } 
+				catch(IOException ex) { return; }
+				}
+   			else
+   			if(data[0]==0) { // peer exit
+				UdpChat.remIP(p.getAddress());
+				}
+   			else {		// chat message
+        			frase = new String( p.getData(), 0, p.getLength());
+   				System.out.println(frase);
+				}
+   			}
+ 		}
 	}
-   else
-	{
-        frase = new String( p.getData(), 0, p.getLength());
-   	System.out.println(frase);
-	}
-   }
- }
-}
+

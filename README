@@ -17,6 +17,7 @@ implementations like C and Java can communicate with each other without any prob
 		*** UDP client and server ***
 
 C/udp-cli-srv/udp_srv.c
+
 JAVA/udp-cli-srv/UdpSrv.java
 				Supports both IPv4 and IPv6
 				(1) Receives a UDP datagram and stores its content in a string.
@@ -26,7 +27,9 @@ JAVA/udp-cli-srv/UdpSrv.java
 				Repeat (1)
 
 C/udp-cli-srv/udp_cli.c
+
 JAVA/udp-cli-srv/UdpCli.java
+
 				Get the server address as first argument in the command line.
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
@@ -43,6 +46,7 @@ JAVA/udp-cli-srv/UdpCli.java
 
 
 C/udp-cli-srv/udp_cli_bcast.c
+
 JAVA/udp-cli-srv/UdpCliBcast.java
 
 				Same as previous client but no arguments because UDP
@@ -53,6 +57,7 @@ JAVA/udp-cli-srv/UdpCliBcast.java
 				server that replies to the first request.
 
 C/udp-cli-srv/udp_cli_to.c
+
 JAVA/udp-cli-srv/UdpCliTo.java
 
 				Same as the first UDP client but with timeout, if there is
@@ -65,6 +70,7 @@ JAVA/udp-cli-srv/UdpCliTo.java
 		*** TCP client and server ***
 
 C/tcp-cli-srv/tcp_srv_soma.c
+
 JAVA/tcp-cli-srv/TcpSrvSoma.java
 
 				Accepts TCP connections, either over IPv4 or IPv6,
@@ -78,7 +84,9 @@ JAVA/tcp-cli-srv/TcpSrvSoma.java
 
 
 JAVA/tcp-cli-srv/TcpCliSoma.java
+
 C/tcp-cli-srv/tcp_cli_soma.c
+
 				Get the server address as first argument in the command line.
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
@@ -93,6 +101,7 @@ C/tcp-cli-srv/tcp_cli_soma.c
 		*** Asynchronous reception, a TCP CHAT client, and server ***
 
 C/udp-cli-srv/udp_srv_mport.c
+
 JAVA/udp-cli-srv/UdpSrvMport.java
 
 				UDP server compatible with previous UDP clients that
@@ -102,6 +111,7 @@ JAVA/udp-cli-srv/UdpSrvMport.java
 
 
 C/tcp-chat/tcp_chat_srv.c
+
 JAVA/tcp-chat/TcpChatSrv.java
 				Accepts TCP connections, on all active connections
 				receives strings as follows: 1st a byte with the
@@ -113,7 +123,9 @@ JAVA/tcp-chat/TcpChatSrv.java
 				than client and closes that clients connection.
 
 C/tcp-chat/tcp_chat_cli.c
+
 JAVA/tcp-chat/TcpChatCli.java
+
 				Get the server address as first argument in the command line.
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
@@ -145,6 +157,7 @@ JAVA/tcp-chat/TcpChatSrvSingleThread.java
 		*** Demo HTTP servers ***
 
 C/http-server-form-file-upload/http_srv_form_file_upload.c
+
 JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
 
 				Get the port number to use as first argument in the
@@ -168,6 +181,7 @@ C/http-server-ajax-voting/http_srv_ajax_voting.c
 		*** Peer-to-peer CHAT application ***
 
 C/udp-chat/udp_chat.c
+
 JAVA/udp-chat/UdpChat.java
 				Gets a nickname from the user. 
 				Manages a list of active peers. At startup one UDP
