@@ -1,5 +1,5 @@
 
-C and JAVA versions of the sample programs for RCOMP (REDES DE COMPUTADORES) course
+C and JAVA versions of the sample programs for RCOMP (REDES DE COMPUTADORES) unit
 
 ------------------------------------------------------------------------------------
 DISCLAIMER:  this code samples are intended for learning purpose, they were planned
@@ -142,10 +142,10 @@ JAVA/tcp-chat/TcpChatSrvSingleThread.java
 
 ------------------------------------------------------------------------------------
 
-		*** Demo HTTP servers and a peer-to-peer CHAT application ***
+		*** Demo HTTP servers ***
 
-C/tcp-http-srv/tcp_http_srv.c
-JAVA/tcp-http-srv/TcpHttpSrv.java
+C/http-server-form-file-upload/http_srv_form_file_upload.c
+JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
 
 				Get the port number to use as first argument in the
 				command line.
@@ -156,6 +156,16 @@ JAVA/tcp-http-srv/TcpHttpSrv.java
 				/upload to upload files with multipart/form-data
 				/list to list the folder files
 
+
+
+C/http-server-ajax-voting/http_srv_ajax_voting.c
+
+
+
+
+------------------------------------------------------------------------------------
+
+		*** Peer-to-peer CHAT application ***
 
 C/udp-chat/udp_chat.c
 JAVA/udp-chat/UdpChat.java
@@ -178,16 +188,16 @@ JAVA/udp-chat/UdpChat.java
 ------------------------------------------------------------------------------------
 ANDRE MOREIRA
 asc@isep.ipp.pt
-http://www.dei.isep.ipp.pt/~andre
+https://www.dei.isep.ipp.pt/~andre
 ------------------------------------------------------------------------------------
 Departamento de Engenharia Informática (DEI)
-http://www.dei.isep.ipp.pt/
+https://www.dei.isep.ipp.pt/
 ------------------------------------------------------------------------------------
 Instituto Superior de Engenharia do Porto (ISEP)
-http://www.isep.ipp.pt/
+https://www.isep.ipp.pt/
 ------------------------------------------------------------------------------------
 Instituto Politécnico do Porto (IPP)
-http://www.ipp.pt/
+https://www.ipp.pt/
 ------------------------------------------------------------------------------------
 Rua Dr. António Bernardino de Almeida, 431
 4249-015 Porto
