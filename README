@@ -13,7 +13,8 @@ Used application protocols are implementation independent, therefore different
 implementations like C and Java can communicate with each other without any problem.
 
 ------------------------------------------------------------------------------------
-Lesson 1 - UDP client and server
+
+		*** UDP client and server ***
 
 C/udp-cli-srv/udp_srv.c
 JAVA/udp-cli-srv/UdpSrv.java
@@ -37,7 +38,8 @@ JAVA/udp-cli-srv/UdpCli.java
 
 
 ------------------------------------------------------------------------------------
-Lesson 2 - Reception timeout and UDP broadcast
+
+		*** Reception timeout and UDP broadcast ***
 
 
 C/udp-cli-srv/udp_cli_bcast.c
@@ -59,7 +61,8 @@ JAVA/udp-cli-srv/UdpCliTo.java
 
 
 ------------------------------------------------------------------------------------
-Lesson 3 - TCP client and server
+
+		*** TCP client and server ***
 
 C/tcp-cli-srv/tcp_srv_soma.c
 JAVA/tcp-cli-srv/TcpSrvSoma.java
@@ -86,7 +89,8 @@ C/tcp-cli-srv/tcp_cli_soma.c
 
 
 ------------------------------------------------------------------------------------
-Lesson 4 - asynchronous reception, a TCP CHAT client, and server
+
+		*** Asynchronous reception, a TCP CHAT client, and server ***
 
 C/udp-cli-srv/udp_srv_mport.c
 JAVA/udp-cli-srv/UdpSrvMport.java
@@ -121,20 +125,24 @@ JAVA/tcp-chat/TcpChatCli.java
 				If a string is received from the server (in the form
 				described above) print it on the screen.
 
+JAVA/tcp-chat/TcpChatCliGui.java
 
-JAVA/tcp-chat/TcpChatSrvST.java
+				GUI (swing) version of the above client.
+				Server address is prompted in a dialog box.
+
+
+
+JAVA/tcp-chat/TcpChatSrvSingleThread.java
+
 				Single thread Java version of the TCP CHAT server, based
 				on polling connected sockets with a low timeout read.
 
 
-JAVA/tcp-chat/TcpChatCliGui.java
-
-				Same as above Java client but with GUI (swing).
-				Server address is prompted in a dialog box.
 
 
 ------------------------------------------------------------------------------------
-Lesson 5 - demo HTTP servers and a peer-to-peer CHAT application
+
+		*** Demo HTTP servers and a peer-to-peer CHAT application ***
 
 C/tcp-http-srv/tcp_http_srv.c
 JAVA/tcp-http-srv/TcpHttpSrv.java

@@ -49,20 +49,20 @@ class TcpChatSrv {
 
 
 class TcpChatSrvClient extends Thread {
-	Socket myS;
+	private Socket myS;
 	private DataInputStream sIn;
 
 	public TcpChatSrvClient(Socket s) { myS=s;}
 	
 	public void run() {
-		int i, nChars;
+		int nChars;
 		byte[] data = new byte[300];
 
 		try {
 			sIn = new DataInputStream(myS.getInputStream());
 			while(true) {
    				nChars=sIn.read();
-   				if(nChars==0) break; // empty line
+   				if(nChars==0) break; // empty line means client wants to exit
    				sIn.read(data,0,nChars);
 				TcpChatSrv.sendToAll(nChars,data);
    				}

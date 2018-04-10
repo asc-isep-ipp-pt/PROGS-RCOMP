@@ -2,7 +2,7 @@
 P1=TcpChatCli
 P2=TcpChatCliGui
 P3=TcpChatSrv
-P4=TcpChatSrvST
+P4=TcpChatSrvSingleThread
 
 all: $(P1).class $(P2).class $(P3).class $(P4).class
 
