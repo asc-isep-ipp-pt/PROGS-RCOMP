@@ -30,7 +30,7 @@ class TcpSrvSumThread implements Runnable {
 	public TcpSrvSumThread(Socket cli_s) { s=cli_s;}
 
 	public void run() {
-		long f,i,num,soma;
+		long f,i,num,sum;
 		InetAddress clientIP;
 
 		clientIP=s.getInetAddress();
@@ -40,15 +40,15 @@ class TcpSrvSumThread implements Runnable {
 			sOut = new DataOutputStream(s.getOutputStream());
 			sIn = new DataInputStream(s.getInputStream());
 			do {
-   				soma=0;
+   				sum=0;
 				do {
    					num=0; f=1; for(i=0;i<4;i++) {num=num+f*sIn.read(); f=f*256;}
-					soma=soma+num;
+					sum=sum+num;
 					}
    				while(num>0);
-   				num=soma; for(i=0;i<4;i++) {sOut.write((byte)(num%256)); num=num/256; }
+   				num=sum; for(i=0;i<4;i++) {sOut.write((byte)(num%256)); num=num/256; }
    				}
-			while(soma>0);
+			while(sum>0);
 
 			System.out.println("Client " + clientIP.getHostAddress() + ", port number: " + s.getPort() + 
 				" disconnected");
