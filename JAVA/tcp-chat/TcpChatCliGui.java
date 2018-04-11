@@ -14,7 +14,7 @@ class TcpChatCliGui extends JFrame implements ActionListener {
 	static private JTextField textToSend;
 	static private JTextArea textRec;
 	static private Socket sock;
-	static private InetAddress IPdestino;
+	static private InetAddress serverIP;
 	static String server, nick;
 	static private DataOutputStream sOut;
 
@@ -103,7 +103,7 @@ class TcpChatCliGui extends JFrame implements ActionListener {
 			"Empty server's IP address or DNS name", "ERROR", JOptionPane.WARNING_MESSAGE);
 			System.exit(0);}
 
-		try { IPdestino = InetAddress.getByName(server); }
+		try { serverIP = InetAddress.getByName(server); }
 		catch(UnknownHostException ex) {
 			JOptionPane.showMessageDialog(null,
 				"The provided server (" + server + ") is invalid", "ERROR",
@@ -111,7 +111,7 @@ class TcpChatCliGui extends JFrame implements ActionListener {
     
 
 		try {
-			sock = new Socket(IPdestino, 9999);
+			sock = new Socket(serverIP, 9999);
 			}
 		catch(IOException ex) {
 			JOptionPane.showMessageDialog(null,

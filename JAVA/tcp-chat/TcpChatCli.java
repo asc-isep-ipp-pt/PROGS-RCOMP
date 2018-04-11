@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*; 
 
 class TcpChatCli {    
-	static InetAddress IPdestino;
+	static InetAddress serverIP;
 	static Socket sock;
 
 
@@ -15,12 +15,12 @@ class TcpChatCli {
 				"Server IPv4/IPv6 address or DNS name is required as argument");
 			System.exit(1); }
 
-		try { IPdestino = InetAddress.getByName(args[0]); }
+		try { serverIP = InetAddress.getByName(args[0]); }
 		catch(UnknownHostException ex) {
    			System.out.println("Invalid server: " + args[0]);
     			System.exit(1); }
 
-		try { sock = new Socket(IPdestino, 9999); }
+		try { sock = new Socket(serverIP, 9999); }
 		catch(IOException ex) {
    			System.out.println("Failed to connect.");
    			System.exit(1); }

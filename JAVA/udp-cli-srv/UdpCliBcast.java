@@ -2,16 +2,16 @@ import java.io.*;
 import java.net.*;
 
 class UdpCliBcast {
-	static InetAddress IPdestino;
+	static InetAddress targetIP;
 
 	public static void main(String args[]) throws Exception {
 		byte[] data = new byte[300];
 		String frase;
-		IPdestino=InetAddress.getByName("255.255.255.255");
+		targetIP=InetAddress.getByName("255.255.255.255");
 
 		DatagramSocket sock = new DatagramSocket();
 		sock.setBroadcast(true);
-		DatagramPacket udpPacket = new DatagramPacket(data, data.length, IPdestino, 9999);
+		DatagramPacket udpPacket = new DatagramPacket(data, data.length, targetIP, 9999);
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 

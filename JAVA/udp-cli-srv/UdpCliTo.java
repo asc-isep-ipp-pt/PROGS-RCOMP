@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*; 
 
 class UdpCliTo {    
-	static InetAddress IPdestino;
+	static InetAddress serverIP;
 
 	private static final int TIMEOUT=3; // seconds
 
@@ -15,7 +15,7 @@ class UdpCliTo {
 			System.exit(1);
 			}
 
-		try { IPdestino = InetAddress.getByName(args[0]); }
+		try { serverIP = InetAddress.getByName(args[0]); }
 		catch(UnknownHostException ex) {
 			System.out.println("Invalid server address supplied: "  + args[0]);
 			System.exit(1);
@@ -25,7 +25,7 @@ class UdpCliTo {
 		DatagramSocket sock = new DatagramSocket();
 		sock.setSoTimeout(1000*TIMEOUT); // set the socket timeout
 
-		DatagramPacket udpPacket = new DatagramPacket(data, data.length, IPdestino, 9999);
+		DatagramPacket udpPacket = new DatagramPacket(data, data.length, serverIP, 9999);
 
 		while(true) {
 			System.out.print("Request sentence to send (\"exit\" to quit): ");

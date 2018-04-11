@@ -2,7 +2,6 @@ import java.io.*;
 import java.net.*; 
 
 class TcpSrvSum {    
-	static InetAddress IPdestino;
 	static ServerSocket sock;
 
 	public static void main(String args[]) throws Exception {       

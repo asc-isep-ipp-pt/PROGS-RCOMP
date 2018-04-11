@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*; 
 
 class UdpCli {    
-	static InetAddress IPdestino;
+	static InetAddress serverIP;
 
 	public static void main(String args[]) throws Exception {       
 		byte[] data = new byte[300];
@@ -13,14 +13,14 @@ class UdpCli {
 			System.exit(1);
 			}
 
-		try { IPdestino = InetAddress.getByName(args[0]); }
+		try { serverIP = InetAddress.getByName(args[0]); }
 		catch(UnknownHostException ex) {
 			System.out.println("Invalid server address supplied: "  + args[0]);
 			System.exit(1);
 			} 
 
 		DatagramSocket sock = new DatagramSocket();
-		DatagramPacket udpPacket = new DatagramPacket(data, data.length, IPdestino, 9999);
+		DatagramPacket udpPacket = new DatagramPacket(data, data.length, serverIP, 9999);
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
