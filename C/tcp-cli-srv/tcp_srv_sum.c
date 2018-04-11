@@ -15,7 +15,7 @@ int main(void) {
 	struct sockaddr_storage from;
 	int err, newSock, sock;
 	unsigned int adl;
-	unsigned long i, f, n, num, soma;
+	unsigned long i, f, n, num, sum;
 	unsigned char bt;
 	char cliIPtext[BUF_SIZE], cliPortText[BUF_SIZE];
 	struct addrinfo  req, *list;
@@ -53,20 +53,20 @@ int main(void) {
 				NI_NUMERICHOST|NI_NUMERICSERV);
                 	printf("New connection from node %s, port number %s\n", cliIPtext, cliPortText);
                 	do {
-                    		soma=0;
+                    		sum=0;
                     		do {
 		       			num=0;f=1;
 					for(i=0;i<4;i++) {
 						read(newSock,&bt,1); num=num+bt*f; f=256*f;
 						}
-                       			soma=soma+num;
+                       			sum=sum+num;
                        			}
                     		while(num);
-		    		n=soma;
+		    		n=sum;
 		    		for(i=0;i<4;i++) {
                         		bt=n%256; write(newSock,&bt,1); n=n/256; }
                     		} 
-                	while(soma);
+                	while(sum);
                 	close(newSock);
                 	printf("Connection from node %s, port number %s closed\n", cliIPtext, cliPortText);
                 	exit(0);
