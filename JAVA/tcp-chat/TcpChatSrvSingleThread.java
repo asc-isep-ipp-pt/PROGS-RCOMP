@@ -47,13 +47,13 @@ class TcpChatSrvSingleThread {
 						} 
 					else {
 						sIn.read(data,0,nChars);  // read the line
-							for(DataOutputStream sOut: cliListOut.values()) {
-								sOut.write(nChars);
-                						sOut.write(data,0,nChars);
+						for(DataOutputStream sOut: cliListOut.values()) {
+							sOut.write(nChars);
+                					sOut.write(data,0,nChars);
 							}
 						}
 					}
-				catch(SocketTimeoutException to) {}
+				catch(SocketTimeoutException to) {} // no text line from client
 			   	}
 
 			}
