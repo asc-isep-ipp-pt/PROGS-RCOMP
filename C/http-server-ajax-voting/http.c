@@ -95,7 +95,7 @@ void sendHttpFileResponse(int sock, char *status, char *filename) {
 		done=fread(line,1,200,f);
 		if(done>0) write(sock,line,done);
 		}
-	while(done);
+	while(done>=0);
 	fclose(f);
 	}
 

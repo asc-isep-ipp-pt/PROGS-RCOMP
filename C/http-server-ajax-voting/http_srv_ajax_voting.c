@@ -13,9 +13,9 @@
 
 #define BASE_FOLDER "www"
 
-void processHttpRequest(int sock, int conSock);
-void processGET(int sock, char *requestLine);
-void processPUT(int sock, char *requestLine);
+void processHttpRequest(int sock, int conSock); // implemented ahead
+void processGET(int sock, char *requestLine);	// implemented ahead
+void processPUT(int sock, char *requestLine);	// implemented ahead
 
 #define NUM_CANDIDATES 4
 char *candidateName[] = { "Candidate A", "Candidate B", "Candidate C" , "Candidate D" };
@@ -67,8 +67,7 @@ int main(int argc, char **argv) {
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void processHttpRequest(int sock, int conSock)
-	{
+void processHttpRequest(int sock, int conSock) {
 	char requestLine[200];
 
 	readLineCRLF(conSock,requestLine);
@@ -111,9 +110,7 @@ void sendVotes(int sock) {
 
 
 void processGET(int sock, char *requestLine) {
-	char *aux, line[200];
-	char filePath[100];
-	char uri[100];
+	char *aux, line[200], filePath[100], uri[100];
 
 	do {	// READ AND IGNORE HEADER LINES
 		readLineCRLF(sock,line);
@@ -133,8 +130,7 @@ void processGET(int sock, char *requestLine) {
 	}
 
 void processPUT(int sock, char *requestLine) {
-	char *aux, line[200];
-	char uri[100];
+	char *aux, line[200], uri[100];
 	int candidate;
 
 	do {	// READ AND IGNORE HEADER LINES
