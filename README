@@ -2,7 +2,7 @@
 C and JAVA versions of the sample programs for RCOMP (REDES DE COMPUTADORES) unit
 
 ------------------------------------------------------------------------------------
-DISCLAIMER:  this code samples are intended for learning purpose, they were planned
+DISCLAIMER:  these code samples are intended for learning purpose, they were planned
 for easy reading in the communication protocols perspective. They are not expected
 to be efficient neither good samples of well-structured software. Error handling is
 frequently ignored for the sake of easing the code analysis within the purposed 
@@ -164,7 +164,7 @@ JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
 				command line.
 				Documents directory is sub-folder www/
 				Reply to GET requests for some files types:
-				(HTML,PDF,GIF,PNG,TXT).
+				(HTML,PDF,GIF,PNG,JavaSript).
 				Reply to POST for /upload and /list:
 				/upload to upload files with multipart/form-data
 				/list to list the folder files
@@ -173,6 +173,13 @@ JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
 
 C/http-server-ajax-voting/http_srv_ajax_voting.c
 
+(Java version: to-do)
+				Get the port number to use as first argument in the
+				command line.
+				Documents directory is sub-folder www/
+				Reply to GET requests for some files types:
+				(HTML,PDF,GIF,PNG,JavaSript).
+				Web services: GET /votes and PUT /votes/N (N=1..)
 
 
 
@@ -187,7 +194,7 @@ JAVA/udp-chat/UdpChat.java
 				Manages a list of active peers. At startup one UDP
 				datagram is sent to the broadcast address to announce
 				itself, this is the peer start announcement.
-				Also when a new peer start announcement is received a
+				Also, when a new peer start announcement is received a
 				peer start announcement is sent back. Before exiting a
 				peer exit announcement is sent to each active peer.
 				Other received UDP datagrams that are not a peer start
