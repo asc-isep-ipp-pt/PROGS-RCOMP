@@ -10,12 +10,12 @@ function refreshVotes() {
 
 	request.ontimeout = function timeoutCase() {
 		document.getElementById("votes").innerHTML = "No response from server, still trying ...";
-                setTimeout(refreshVotes, 1000);
+                setTimeout(refreshVotes, 200);
 		};
 
 	request.onerror = function errorCase() {
 		document.getElementById("votes").innerHTML = "No response from server, still trying ...";
-                setTimeout(refreshVotes, 1000);
+                setTimeout(refreshVotes, 5000);
 		};
 
   	request.open("GET", "/votes", true);
@@ -27,6 +27,8 @@ function voteFor(option) {
 	var request = new XMLHttpRequest();
   	request.open("PUT", "/votes/" + option , true);
   	request.send();
+	var vBoard=document.getElementById("votes");
+        vBoard.innerHTML = vBoard.innerHTML + "<p>Casting your vote ... Please wait.";
 	}
 	
 

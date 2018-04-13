@@ -173,7 +173,8 @@ JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
 
 C/http-server-ajax-voting/http_srv_ajax_voting.c
 
-(Java version: to-do)
+JAVA/http-server-ajax-voting/HttpServerAjaxVoting.java
+
 				Get the port number to use as first argument in the
 				command line.
 				Documents directory is sub-folder www/
