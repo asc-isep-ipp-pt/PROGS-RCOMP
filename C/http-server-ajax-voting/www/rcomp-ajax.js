@@ -2,6 +2,7 @@
 
 // IMPORTANT: notice the next request is scheduled only after the
 //            previous request is fully processed either successfully
+//	      or not.
 
 function refreshVotes() {
 	var request = new XMLHttpRequest();

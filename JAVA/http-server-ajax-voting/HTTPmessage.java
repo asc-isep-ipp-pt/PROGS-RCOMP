@@ -100,8 +100,6 @@ public class HTTPmessage {
         if(content!=null) in.readFully(content,0,content.length);
         }
     
-    
-    
     public HTTPmessage() {
         isRequest=true;
         method=null;
@@ -155,9 +153,6 @@ public class HTTPmessage {
         content=c.getBytes(); contentType=ct;
         }
     
-    
-
-    
     public boolean setContentFromFile(String fname) {
 	File f=new File(fname);
         contentType=null;
@@ -199,9 +194,6 @@ public class HTTPmessage {
             }
         return true; 
         } 
-    
-    
-    
-    
-}
+
+    } // CLASS END
 
