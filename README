@@ -51,7 +51,7 @@ JAVA/udp-cli-srv/UdpCliBcast.java
 
 				Same as previous client but no arguments because UDP
 				first request is sent in broadcast (255.255.255.255).
-				Operates only over IPv4 (in IPv6 there is no broadcast address).
+				Operates only over IPv4 (in IPv6 there's no broadcast address).
 				Only the first request is sent to the broadcast address,
 				next requests are sent to the unicast address of the
 				server that replies to the first request.
@@ -60,7 +60,7 @@ C/udp-cli-srv/udp_cli_to.c
 
 JAVA/udp-cli-srv/UdpCliTo.java
 
-				Same as the first UDP client but with timeout, if there is
+				Same as the first UDP client but with timeout, if there's
 				no reply from the server it does not hang forever as
 				previous clients.
 
@@ -75,12 +75,12 @@ JAVA/tcp-cli-srv/TcpSrvSoma.java
 
 				Accepts TCP connections, either over IPv4 or IPv6,
 				on each connection receives unsigned integer numbers
-				in the form of 4 bytes, LSB (“Least Significant Byte”)
-				first, until integer zero is received.
-				When zero is received reply to client with the sum
-				result in the same form (4 bytes).
-				If first number received is zero closes the connection with
-				the client.
+				in the form of 4 bytes, LSB (Least Significant Byte)
+				first, until integer number zero is received.
+				When zero is received, reply to client with the sum
+				result in the same format (4 bytes, LSB first).
+				If first number received is zero (empty list) closes
+				the connection with the client.
 
 
 JAVA/tcp-cli-srv/TcpCliSoma.java
@@ -91,8 +91,9 @@ C/tcp-cli-srv/tcp_cli_soma.c
 				Server address can be either a DNS hostname, an IPv4 address
 				or an IPv6 address.
 				Establish a TCP connection to the server, read unsigned integers
-				from keyboard and send then to the server in the form above specified.
-				when the number is zero read the result from the server.
+				from keyboard and send then to the server in the format specified
+				above (4 bytes, LSB first).
+				When the number is zero read the result from the server.
 				If the first number entered is zero, send it to the server and exit.
 
 
@@ -119,8 +120,8 @@ JAVA/tcp-chat/TcpChatSrv.java
 				string itself.
 				For each string received retransmits it to every
 				active connection, using the form specified above.
-				If the string received is empty send it back to
-				than client and closes that clients connection.
+				If the string received is empty sends it back to
+				than client and closes that client's connection.
 
 C/tcp-chat/tcp_chat_cli.c
 
@@ -131,11 +132,11 @@ JAVA/tcp-chat/TcpChatCli.java
 				or an IPv6 address.
 				Connect to the server and read the nickname from the keyboard.
 				If a string is entered by keyboard, send the nickname and
-				the string to the server (in the form described above).
+				the string to the server (in the format described above).
 				If the string typed at keyboard is "exit", send an empty
-				string to the server, wait for an empty reply and exit.
-				If a string is received from the server (in the form
-				described above) print it on the screen.
+				string to the server, wait for an empty string reply and exit.
+				Meanwhile, if a string is received from the server (in the form
+				described above) prints it on the screen.
 
 JAVA/tcp-chat/TcpChatCliGui.java
 
@@ -147,7 +148,7 @@ JAVA/tcp-chat/TcpChatCliGui.java
 JAVA/tcp-chat/TcpChatSrvSingleThread.java
 
 				Single thread Java version of the TCP CHAT server, based
-				on polling connected sockets with a low timeout read.
+				on polling over sockets with a low read timeout.
 
 
 
@@ -191,20 +192,20 @@ JAVA/http-server-ajax-voting/HttpServerAjaxVoting.java
 C/udp-chat/udp_chat.c
 
 JAVA/udp-chat/UdpChat.java
-				Gets a nickname from the user. 
+				Gets a nickname from the user (keyboard). 
 				Manages a list of active peers. At startup one UDP
 				datagram is sent to the broadcast address to announce
-				itself, this is the peer start announcement.
-				Also, when a new peer start announcement is received a
-				peer start announcement is sent back. Before exiting a
-				peer exit announcement is sent to each active peer.
-				Other received UDP datagrams that are not a peer start
-				announcements neither peer exit announcements are supposed
+				itself, this is the peer-start announcement.
+				Also, when a new peer-start announcement is received, a
+				peer-start announcement is sent back. Before exiting a
+				peer-exit announcement is sent to each active peer.
+				Other received UDP datagrams that are not a peer-start
+				announcements neither peer-exit announcements are supposed
 				to be text messages and are printed at the console.
 				When the user enters a text line at the console, it is
 				sent to each active peer in active peer list.
 				If the typed line is EXIT the peer application exits,
-				if it is LIST, then a list of active peers is printed.
+				if it's LIST, then a list of active peers is printed.
 
 
 ------------------------------------------------------------------------------------
