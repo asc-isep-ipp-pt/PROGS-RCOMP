@@ -157,6 +157,7 @@ JAVA/tcp-chat/TcpChatSrvSingleThread.java
 
 		*** Demo HTTP servers ***
 
+
 C/http-server-form-file-upload/http_srv_form_file_upload.c
 
 JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
@@ -169,6 +170,7 @@ JAVA/http-server-form-file-upload/HttpServerFormFileUpload.java
 				Reply to POST for /upload and /list:
 				/upload to upload files with multipart/form-data
 				/list to list the folder files
+
 
 
 
@@ -185,10 +187,9 @@ JAVA/http-server-ajax-voting/HttpServerAjaxVoting.java
 
 JAVA/http-server-ajax-voting/DemoConsumer.java
 
-				Get the server address and port number as first
-				argument in the command line.
+				Get the HTTP server's address and port number as
+				arguments in the command line.
 				Casts 200 votes on the first candidate.
-
 
 
 ------------------------------------------------------------------------------------
