@@ -110,26 +110,31 @@ public class HTTPmessage {
         }
     
     
-    public void setResponseStatus(String sT) {
-        isRequest=false;
-        status=sT;
-        }
+	public void setResponseStatus(String sT) {
+		isRequest=false;
+		status=sT;
+		}
     
-    public void setContent(String cnt, String cType) {    
-        content=cnt.getBytes();
-        contentType=cType;
-        }
+	public void setContent(String cnt, String cType) {    
+		content=cnt.getBytes();
+		contentType=cType;
+		}
+
+	public void setRequestMethod(String m) {
+		isRequest=true;
+		method=m;
+		}
     
     
-    public boolean send(DataOutputStream out) throws IOException {
-        if(isRequest) {
-            if(method==null||uri==null) return false;
-            writeHeaderLine(out, method + " " + uri + " " + VERSION);
-            }
-        else {
-            if(status==null) return false;
-            writeHeaderLine(out,VERSION + " " + status);
-            }
+	public boolean send(DataOutputStream out) throws IOException {
+		if(isRequest) {
+			if(method==null||uri==null) return false;
+			writeHeaderLine(out, method + " " + uri + " " + VERSION);
+			}
+		else {
+			if(status==null) return false;
+			writeHeaderLine(out,VERSION + " " + status);
+			}
             
         if(content!=null) {
             if(contentType!=null) writeHeaderLine(out,CONTENT_TYPE + " " + contentType);
@@ -146,6 +151,11 @@ public class HTTPmessage {
     
     public String getMethod() { return method; }
     public String getURI() { return uri; }
+    public String getStatus() { return status; }
+    public void setURI(String u) { uri=u; }
+	
+
+
     public boolean hasContent() { return (content!=null); }
     public String getContentAsString() { return(new String(content)); }
     public byte[] getContent() { return(content); }

@@ -183,6 +183,12 @@ JAVA/http-server-ajax-voting/HttpServerAjaxVoting.java
 				(HTML,PDF,GIF,PNG,JavaSript).
 				Web services: GET /votes and PUT /votes/N (N=1..)
 
+JAVA/http-server-ajax-voting/DemoConsumer.java
+
+				Get the server address and port number as first
+				argument in the command line.
+				Casts 200 votes on the first candidate.
+
 
 
 ------------------------------------------------------------------------------------
