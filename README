@@ -192,6 +192,9 @@ JAVA/http-server-ajax-voting/DemoConsumer.java
 				Casts 200 votes on the first candidate.
 
 
+
+
+
 JAVA/http-server-chat/HttpServerChat.java
 
 				Get the port number to use as the first argument in the
@@ -210,6 +213,7 @@ JAVA/http-server-chat/HttpServerChat.java
 				message is posted. The client doesn't settle a timeout.
 				With this strategy, clients are not required to be
 				periodically polling for new messages. 
+
 
 
 ------------------------------------------------------------------------------------
