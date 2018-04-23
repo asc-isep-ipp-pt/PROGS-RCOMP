@@ -45,10 +45,12 @@ function postMessage() {
         }
     if(messageBox.value === "") { 
         hints.innerHTML="Not sending empty message.";
+        return;
         }
     var POSTrequest = new XMLHttpRequest();
     nicknameBox.disabled=true;
     POSTrequest.open("POST", "/messages", true);
+    POSTrequest.timeout = 5000;
     POSTrequest.send("(" + nicknameBox.value + ") " + messageBox.value);
     }
 	
