@@ -1,0 +1,21 @@
+<html><head><title>HTTP server demo - CHAT</title>
+<script src="rcomp-chat.js"></script>
+</head>
+<body bgcolor="#C0C0C0" onload="loadAndStart()">
+<table border="0" width="1000"><tr><td valign=top>
+<h1>HTTP server demo - CHAT</h1>
+<h3>Java version</h3>
+</td><td align="center"><img src="chat.png" height="100" width="200"></td></tr></table>
+<hr>
+
+<textarea id="messages" rows="20" cols="160" readonly>
+Please wait, loading messages ...
+</textarea>
+<table border="0">
+    <tr><td>Nickname: <input type="text" id="nickname"></td><td><div id="hints"></div></td></tr>
+    <tr><td colspan="2">Text message:    
+<input type="text" id="message" size="100"><input type="button" value=SEND onclick="postMessage()">
+        </td></tr></table>
+<hr>
+</body></html>
+

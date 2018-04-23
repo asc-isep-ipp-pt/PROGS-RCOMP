@@ -192,6 +192,26 @@ JAVA/http-server-ajax-voting/DemoConsumer.java
 				Casts 200 votes on the first candidate.
 
 
+JAVA/http-server-chat/HttpServerChat.java
+
+				Get the port number to use as the first argument in the
+				command line.
+				Documents directory is sub-folder www/
+				Replies to GET requests for some files types in www/:
+				(HTML,PDF,GIF,PNG,JavaSript).
+				Web services: 	GET /messages/N (N=0..)
+						POST /messages
+				The server numbers posted messages starting from 0.
+				Clients are allowed to get only one message at a
+				time, they start by message 0. Only once they get
+				a message they should request for the next message.
+				When the client requests for a message number not
+				yet posted, the server holds the response until the
+				message is posted. The client doesn't settle a timeout.
+				With this strategy, clients are not required to be
+				periodically polling for new messages. 
+
+
 ------------------------------------------------------------------------------------
 
 		*** Peer-to-peer CHAT application ***
