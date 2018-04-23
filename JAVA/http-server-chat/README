@@ -1,6 +1,48 @@
-	
 
 JAVA/http-server-chat/HttpServerChat.java
 
-	*** HTTP Chat server ***
+			*** HTTP Chat server ***
+
+This implementation addresses one classical issue with web services:
+
+	How to notify a consumer something has happened on the server's side?
+
+	(in this implementation, the event is: there's a new message to be fetched)
+
+
+The most basic approach is forcing consumers to periodically make a request to check
+if there's something new (polling). Though this is not very efficient, clients come
+to know about events with some delay and it's processing and networking intensive.
+
+Here another approach is used, in fact, HTTP doesn't establish a maximum time for a
+server to reply a client's request. Based on this, the server can hold the response
+until the event occurs, when it does the response is sent.
+
+This is ok as far as the client uses asynchronous HTTP requests (like with AJAX) and
+doesn't block waiting for the response.
+
+One drawback of this solution is the server will have one pending response for each
+client, this may present a problem for the server if there are too many clients.
+
+Regarding this specific implementation:
+
+- Chat messages are nummbered by the server, starting from zero, as they come in.
+
+- Clients send messages by requesting POST /messages
+
+- Clients retrieve messages from the servers by requesting GET /messages/N, they
+start with GET /messages/0, once the response is received, they request GET /messages/1,
+and so on.
+
+- If a client requests for a non existing message, the server holds the response until
+it exists.
+
+- The client only requests the next message once the response to the previous message
+is obtained. No timeout is defined, so while the server is holding the response, the
+client is idle, waiting for it.
+
+- On the server side, each request is processed by a thread, if the request is 
+GET /messages/N and there's no message N yet, the thread is put into a wait state.
+Once a client posts a new message, all waiting threads are notified and awaked.
+
 	
