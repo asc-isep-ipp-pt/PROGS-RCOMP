@@ -32,10 +32,12 @@ public class HTTPmessage {
         int val;
         do {
             val=in.read();
+            if(val==-1) throw new IOException();
             if(val!=CR) ret=ret+(char)val;
             }
         while(val!=CR);
-        in.read(); // read LF
+        val=in.read(); // read LF
+        if(val==-1) throw new IOException();
         return ret;
         }
     

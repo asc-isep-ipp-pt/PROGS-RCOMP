@@ -205,6 +205,7 @@ JAVA/http-server-chat/HttpServerChat.java
 				Web services: 	GET /messages/N (N=0..)
 						POST /messages
 				The server numbers posted messages starting from 0.
+				Message 0 is a server's greeting to clients.
 				Clients are allowed to get only one message at a
 				time, they start by message 0. Only once they get
 				a message they should request for the next message.
@@ -214,6 +215,9 @@ JAVA/http-server-chat/HttpServerChat.java
 				With this strategy, clients are not required to be
 				periodically polling for new messages. 
 
+JAVA/http-server-chat/HttpChatConsumer.java
+
+				Command line consumer/client for HttpServerChat.
 
 
 ------------------------------------------------------------------------------------

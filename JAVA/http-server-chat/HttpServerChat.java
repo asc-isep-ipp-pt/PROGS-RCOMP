@@ -23,6 +23,7 @@ public class HttpServerChat {
             System.exit(1);
         }
         System.out.println("Server ready, listening on port number " + args[0]);
+	addMsg("HTTP Chat Server is ready ...");
         while(true) { 
             cliSock=sock.accept();
             HttpChatRequest req=new HttpChatRequest(cliSock, BASE_FOLDER);

@@ -1,6 +1,6 @@
 
 // global variables
-var nextMsg=0;
+var nextMsg;
 var mArea,nicknameBox, messageBox, hints; // defined only after the document is loaded
 
 function loadAndStart() {
@@ -8,19 +8,21 @@ function loadAndStart() {
     nicknameBox=document.getElementById("nickname");
     messageBox=document.getElementById("message");
     hints=document.getElementById("hints");
+    nextMsg=0;
     setTimeout(getNextMessage, 1000);
     }
 
 function getNextMessage() {
     var request = new XMLHttpRequest();
-    mArea.style.color="blue";
-    if(nextMsg===0) mArea.value = "No messages yet ...";
     
     request.onload = function() {
-        if(nextMsg===0) mArea.value = "";
+        if(nextMsg===0) { 
+		mArea.value = "";
+        	mArea.style.color="blue";
+	}
         mArea.value = mArea.value + this.responseText + "\r\n";
-        nextMsg=nextMsg+1; 
         mArea.scrollTop = mArea.scrollHeight; // scroll the textarea to make last lines visible
+        nextMsg=nextMsg+1; 
         setTimeout(getNextMessage, 100);
         };
 
@@ -30,10 +32,20 @@ function getNextMessage() {
         mArea.style.color="red";
         setTimeout(getNextMessage, 1000); 
     };
+
+    request.ontimeout = function() { 
+        nextMsg=0;
+        mArea.value = "Server not responding.";
+        mArea.style.color="red";
+        setTimeout(getNextMessage, 100); 
+    };
+        
         
     request.open("GET", "/messages/" + nextMsg, true);
-    // no timeout, the server responds only when the requested
-    // message number is created
+    if(nextMsg===0) request.timeout = 1000;
+    // Message 0 is a server's greeting, it should always exist
+    // no timeout, for following messages, the server responds only when the requested
+    // message number exists
     request.send();
 }
 
