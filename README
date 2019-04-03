@@ -248,7 +248,9 @@ JAVA/udp-chat/UdpChat.java
 
 		*** SSL/TLS secure communications ***
 
-C/SSL/check-TLS
+
+C/SSL/check-TLS/check_server_TLS.c
+
 				Test the SSL/TLS handshake with a TCP server. The
 				first argument it's the server's DNS name. The second
 				argument is optional, it's the server's port number,
@@ -259,7 +261,11 @@ C/SSL/check-TLS
 				if the provided server's DNS name matches the common
 				name (CN) attribute on the received certificate.
 				
-C/SSL/tcp-cli-srv
+
+
+C/SSL/tcp-cli-srv/tcp_cli_sum_TLS.c
+C/SSL/tcp-cli-srv/tcp_srv_sum_TLS.c
+
 				Adaptation of C/tcp-cli-srv to use SSL/TLS. Enforces
 				the authentication of both the server and the clients,
 				through public key certificates.
