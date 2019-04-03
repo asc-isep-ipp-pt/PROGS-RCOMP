@@ -1,0 +1,13 @@
+#!/bin/bash
+HostName="$(hostname -f)"
+SubjectAltName="DNS:$HostName"
+if [ ${#HostName} -gt 64 ] ; then
+ HostName="$(hostname)"
+fi
+
+sed -e s#@HostName@#"$HostName"# -e s#@SubjectAltName@#"$SubjectAltName"# ssl.cnf.template > ssl.cnf
+
+openssl req -config ssl.cnf -new -x509 -days 3650 -nodes -sha256 \
+        -out server.pem -keyout server.key
+rm ssl.cnf
+#############

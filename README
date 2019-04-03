@@ -284,6 +284,23 @@ C/SSL/tcp-cli-srv/tcp_srv_sum_TLS.c
 				authorized.
 
 
+
+C/SSL/https-server-ajax-voting/https_srv_ajax_voting.c
+
+				Adaptation of C/http-server-ajax-voting/ to use SSL/TLS,
+				thus it's a HTTPS server and not a HTTP server.
+				Use "make cert" to create the server's public key
+				certificate and private key.
+				The certificate's CN attribute matches the host where
+				"make cert" is run, yet it's a self-signed certificate.
+				It will not be trusted by browsers.
+				To test, don't forget the typed URL on the browser must
+				start by "https://" and not "http://", otherwise the
+				browser will not use SSL/TLS and the server will not
+				allow it.
+
+
+
 ------------------------------------------------------------------------------------
 ANDRE MOREIRA
 asc@isep.ipp.pt
