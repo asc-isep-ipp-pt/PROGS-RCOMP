@@ -227,6 +227,7 @@ JAVA/http-server-chat/HttpChatConsumer.java
 C/udp-chat/udp_chat.c
 
 JAVA/udp-chat/UdpChat.java
+
 				Gets a nickname from the user (keyboard). 
 				Manages a list of active peers. At startup one UDP
 				datagram is sent to the broadcast address to announce
@@ -241,6 +242,40 @@ JAVA/udp-chat/UdpChat.java
 				sent to each active peer in active peer list.
 				If the typed line is EXIT the peer application exits,
 				if it's LIST, then a list of active peers is printed.
+
+
+------------------------------------------------------------------------------------
+
+		*** SSL/TLS secure communications ***
+
+C/SSL/check-TLS
+				Test the SSL/TLS handshake with a TCP server. The
+				first argument it's the server's DNS name. The second
+				argument is optional, it's the server's port number,
+				the default is 443 (HTTPS).
+				This client presents information about the secured
+				established connection, e.g. TLS version, cypher suite
+				and the server's public key certificate. Also checks
+				if the provided server's DNS name matches the common
+				name (CN) attribute on the received certificate.
+				
+C/SSL/tcp-cli-srv
+				Adaptation of C/tcp-cli-srv to use SSL/TLS. Enforces
+				the authentication of both the server and the clients,
+				through public key certificates.
+				Use "make certs" to create all certificates and private
+				keys, this creates files:
+					client1.pem client1.key
+					client2.pem client2.key
+					client3.pem client3.key
+					client4.pem client4.key
+					server.pem server.key
+					authentic-clients.pem
+				The last file contains the public key certificates for
+				client1, client2, and client3, but not for client4.
+				The server demands a client's certificate and it must
+				be in "authentic-clients.pem", thus client4 will not be
+				authorized.
 
 
 ------------------------------------------------------------------------------------

@@ -1,0 +1,18 @@
+#!/bin/bash
+OPENSSL_CONF_TEMPLATE="ssl.cnf.template"
+#######
+for name in client1 client2 client3 client4 server; do
+	echo "  ------------ Creating the file with certificate for ${name}    : ${name}.pem"
+	echo "  ------------ Creating the file with the private key for ${name}: ${name}.key"
+	sed -e s#@NAME@#"$name"# ${OPENSSL_CONF_TEMPLATE} > ssl-tmp.cnf
+	openssl req -config ssl-tmp.cnf -new -x509 -days 3650 -nodes -sha256 \
+        	-out ${name}.pem -keyout ${name}.key
+	rm ssl-tmp.cnf
+done
+## Certificates must have different subjects, otherwise only the first is loaded
+echo " ------------ Creating file with all clients' certificates: authentic-clients.pem"
+cat client1.pem client2.pem client3.pem > authentic-clients.pem
+echo "############################################################################"
+echo "WARNING: For testing, client4 is not added to the list of authorized clients"
+echo "############################################################################"
+#######
