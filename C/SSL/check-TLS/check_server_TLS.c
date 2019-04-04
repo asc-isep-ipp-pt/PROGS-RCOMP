@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 	X509_free(cert);
 
 	if(cert==NULL) {
-		puts("Sorry: no certificate was provided by the server");
+		puts("Sorry: no certificate was provided by the server, aborting.");
 		SSL_free(sslConn); close(sock); exit(1);
 	}
 
@@ -85,28 +85,30 @@ int main(int argc, char **argv) {
 
 	char *cn=strstr(line,"/CN=");
 	if(cn==NULL) {
-		puts("Server's certificate CN not found");
+		puts("SECURITY WARNING: certificate CN attribute not found");
 	}
 	else {
-		cn+=4;
+		cn+=4;  // remove any additional attribute
+		char *nextAttr=strstr(cn,"/"); if(nextAttr) *nextAttr=0;
 		if(strcmp(cn,argv[1])) {
-			puts("SECURITY WARNING: the server's certificate CN attribute doesn't match");
+			printf("SECURITY WARNING: the certificate CN attribute (%s) doesn't match the server's DNS name (%s).\n",
+				       	cn, argv[1]);
 		}
-		else
-			printf("Server name (%s) matches.\n", cn);
+		else {
+			printf("OK: the server's DNS name (%s) matches the certificate's CN attribute.\n", argv[1]);
+		}
 	}
 
 	X509_NAME_oneline(X509_get_issuer_name(cert),line,BUF_SIZE);
-	printf("Server's certificate issuer: %s\n---------------------------\n",line);
-
+	printf("\nServer's certificate issuer: %s\n---------------------------\n",line);
 
 	long result=SSL_get_verify_result(sslConn);
 	if(result!=X509_V_OK) {
 		puts("SECURITY WARNING: untrusted server certificate");
-		printf("Certificate problem is: %s\n", X509_verify_cert_error_string(result));
+		printf("The certificate's problem is: %s\n", X509_verify_cert_error_string(result));
 	}
 	else {
-		puts("The certificate is ok (trusted).");
+		puts("OK: The certificate is trusted.");
 	}
 	puts("-------------------------");
 
