@@ -15,10 +15,8 @@
 #include <openssl/x509.h>
 
 #define SERVER_SSL_CERT_FILE "server.pem"
-#define CLIENT_SSL_CERT_FILE "client2.pem"
-#define CLIENT_SSL_KEY_FILE "client2.key"
 
-#define BUF_SIZE 30
+#define BUF_SIZE 60
 #define SERVER_PORT "9999"
 
 // read a string from stdin protecting buffer overflow
@@ -28,11 +26,13 @@ int main(int argc, char **argv) {
 	int err, sock;
 	unsigned long f, i, n, num;
 	unsigned char bt;
-	char linha[BUF_SIZE];
+	char line[BUF_SIZE];
 	struct addrinfo  req, *list;
    
-	if(argc!=2) {
-        	puts("Server's IPv4/IPv6 address or DNS name is required as argument");
+	if(argc!=3) {
+		printf("\nUsage:\n\n%s SERVER-IP CLIENT-NAME\n\n",argv[0]);
+        	puts("SERVER-IP: Server's IPv4/IPv6 address or DNS name.");
+        	puts("CLIENT-NAME: base filename to load client's certificate and private key.\n");
         	exit(1);
         	}
 
@@ -57,8 +57,10 @@ int main(int argc, char **argv) {
         SSL_CTX *ctx = SSL_CTX_new(method);
 
 	// Load client's certificate and key
-	SSL_CTX_use_certificate_file(ctx, CLIENT_SSL_CERT_FILE, SSL_FILETYPE_PEM);
-        SSL_CTX_use_PrivateKey_file(ctx, CLIENT_SSL_KEY_FILE, SSL_FILETYPE_PEM);
+	strcpy(line,argv[2]);strcat(line,".pem");
+	SSL_CTX_use_certificate_file(ctx, line, SSL_FILETYPE_PEM);
+	strcpy(line,argv[2]);strcat(line,".key");
+        SSL_CTX_use_PrivateKey_file(ctx, line, SSL_FILETYPE_PEM);
         if (!SSL_CTX_check_private_key(ctx)) {
                 puts("Error loading client's certificate/key");
 		close(sock);
@@ -111,10 +113,10 @@ int main(int argc, char **argv) {
 	do {
         	do {
 			printf("Enter a positive integer to SUM (zero to terminate): ");
-			GETS(linha,BUF_SIZE);
-			while(sscanf(linha,"%li",&num)!=1 || num<0) {
+			GETS(line,BUF_SIZE);
+			while(sscanf(line,"%li",&num)!=1 || num<0) {
 				puts("Invalid number");
-				GETS(linha,BUF_SIZE);
+				GETS(line,BUF_SIZE);
 				}
 			n=num;
 			for(i=0;i<4;i++) {
