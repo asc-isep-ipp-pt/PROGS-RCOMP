@@ -29,10 +29,11 @@ int main(int argc, char **argv) {
 	char line[BUF_SIZE];
 	struct addrinfo  req, *list;
    
-	if(argc!=3) {
-		printf("\nUsage:\n\n%s SERVER-IP CLIENT-NAME\n\n",argv[0]);
+	if(argc<2) {
+		printf("\nUsage:\n\n%s SERVER-IP [CLIENT-NAME]\n\n",argv[0]);
         	puts("SERVER-IP: Server's IPv4/IPv6 address or DNS name.");
-        	puts("CLIENT-NAME: base filename to load client's certificate and private key.\n");
+        	puts("CLIENT-NAME: base filename to load client's certificate and private key.");
+        	puts("             !!! If not provided, the client will not use a certificate.\n");
         	exit(1);
         	}
 
@@ -56,16 +57,18 @@ int main(int argc, char **argv) {
 	const SSL_METHOD *method=SSLv23_client_method();
         SSL_CTX *ctx = SSL_CTX_new(method);
 
-	// Load client's certificate and key
-	strcpy(line,argv[2]);strcat(line,".pem");
-	SSL_CTX_use_certificate_file(ctx, line, SSL_FILETYPE_PEM);
-	strcpy(line,argv[2]);strcat(line,".key");
-        SSL_CTX_use_PrivateKey_file(ctx, line, SSL_FILETYPE_PEM);
-        if (!SSL_CTX_check_private_key(ctx)) {
-                puts("Error loading client's certificate/key");
-		close(sock);
-                exit(1);
-		}
+	if(argc==3) {
+		// Load client's certificate and key
+		strcpy(line,argv[2]);strcat(line,".pem");
+		SSL_CTX_use_certificate_file(ctx, line, SSL_FILETYPE_PEM);
+		strcpy(line,argv[2]);strcat(line,".key");
+        	SSL_CTX_use_PrivateKey_file(ctx, line, SSL_FILETYPE_PEM);
+        	if (!SSL_CTX_check_private_key(ctx)) {
+                	puts("Error loading client's certificate/key");
+			close(sock);
+                	exit(1);
+			}
+	}
 
         SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER,NULL);
 
