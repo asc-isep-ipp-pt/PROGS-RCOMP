@@ -47,17 +47,17 @@ int main(int argc, char **argv) {
         SSL_CTX *ctx = SSL_CTX_new(method);
 
 	// ABORT ON HANDSHAKE IF CERTIFICATE UNTRUSTED
-	//SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER,NULL);
+	// SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER,NULL);
 
 	// LOAD TRUSTED ISSUERS CERTIFICATES LIST
 	SSL_CTX_load_verify_locations(ctx,NULL,"/etc/ssl/certs");
 
 	// Require HIGH, standing for 128-bits or above keys.
 	// Disable some less safe cyphers
-	SSL_CTX_set_cipher_list(ctx,"HIGH:!aNULL:!kRSA:!PSK:!SRP:!MD5:!RC4");
+	// SSL_CTX_set_cipher_list(ctx,"HIGH:!aNULL:!kRSA:!PSK:!SRP:!MD5:!RC4");
 
 	// SOME SERVERS MAY NOT SUPPORT TLS1.2, and thus the handshake would fail
-	// To support lower versions, don’t uncomment this
+	// To support lower versions, comment this.
 	// SSL_CTX_set_min_proto_version(ctx,TLS1_2_VERSION);
 
 	SSL *sslConn = SSL_new(ctx);
