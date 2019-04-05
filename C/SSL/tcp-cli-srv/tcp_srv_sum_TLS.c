@@ -70,7 +70,7 @@ int main(void) {
 	// THE CLIENTS' CERTIFICATES ARE TRUSTED
         SSL_CTX_load_verify_locations(ctx,AUTH_CLIENTS_SSL_CERTS_FILE,NULL);
 
-	// Restrict TLS version and cypher suited
+	// Restrict TLS version and cypher suite
         SSL_CTX_set_min_proto_version(ctx,TLS1_2_VERSION);
         SSL_CTX_set_cipher_list(ctx, "HIGH:!aNULL:!kRSA:!PSK:!SRP:!MD5:!RC4");
 
@@ -97,6 +97,12 @@ int main(void) {
 				}
         		printf("TLS version: %s\nCypher suite: %s\n",
 					SSL_get_cipher_version(sslConn),SSL_get_cipher(sslConn));
+			X509* cert=SSL_get_peer_certificate(sslConn);
+        		X509_free(cert);
+			X509_NAME_oneline(X509_get_subject_name(cert),cliIPtext,BUF_SIZE);
+        		printf("Client's certificate subject: %s\n",cliIPtext);
+
+
 
                 	do {
                     		sum=0;

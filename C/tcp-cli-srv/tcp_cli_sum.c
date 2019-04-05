@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 	int err, sock;
 	unsigned long f, i, n, num;
 	unsigned char bt;
-	char linha[BUF_SIZE];
+	char line[BUF_SIZE];
 	struct addrinfo  req, *list;
    
 	if(argc!=2) {
@@ -44,10 +44,10 @@ int main(int argc, char **argv) {
 	do {
         	do {
 			printf("Enter a positive integer to SUM (zero to terminate): ");
-			GETS(linha,BUF_SIZE);
-			while(sscanf(linha,"%li",&num)!=1 || num<0) {
+			GETS(line,BUF_SIZE);
+			while(sscanf(line,"%li",&num)!=1 || num<0) {
 				puts("Invalid number");
-				GETS(linha,BUF_SIZE);
+				GETS(line,BUF_SIZE);
 				}
 			n=num;
 			for(i=0;i<4;i++) {

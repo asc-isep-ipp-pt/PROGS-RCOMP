@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
         // THE SERVER'S CERTIFICATE IS TRUSTED
         SSL_CTX_load_verify_locations(ctx,SERVER_SSL_CERT_FILE,NULL);
 
-	// Restrict TLS version and cypher suited
+	// Restrict TLS version and cypher suites
         SSL_CTX_set_min_proto_version(ctx,TLS1_2_VERSION);
 	SSL_CTX_set_cipher_list(ctx, "HIGH:!aNULL:!kRSA:!PSK:!SRP:!MD5:!RC4");
 
@@ -102,13 +102,6 @@ int main(int argc, char **argv) {
                 close(sock);
                 exit(1);
         }
-
-
-
-
-
-
-
 	
 	do {
         	do {
