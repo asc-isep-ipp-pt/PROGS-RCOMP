@@ -250,6 +250,7 @@ JAVA/udp-chat/UdpChat.java
 
 
 C/SSL/check-TLS/check_server_TLS.c
+JAVA/SSL/check-TLS/CheckServerTLS.java
 
 				Test the SSL/TLS handshake with a TCP server. The
 				first argument it's the server's DNS name. The second
@@ -257,9 +258,7 @@ C/SSL/check-TLS/check_server_TLS.c
 				the default is 443 (HTTPS).
 				This client presents information about the secured
 				established connection, e.g. TLS version, cypher suite
-				and the server's public key certificate. Also checks
-				if the provided server's DNS name matches the common
-				name (CN) attribute on the received certificate.
+				and the server's public key certificate.
 				
 
 
@@ -286,8 +285,9 @@ C/SSL/tcp-cli-srv/tcp_srv_sum_TLS.c
 
 
 C/SSL/https-server-ajax-voting/https_srv_ajax_voting.c
+JAVA/SSL/https-server-ajax-voting/HttpsServerAjaxVoting.java
 
-				Adaptation of C/http-server-ajax-voting/ to use SSL/TLS,
+				Adaptation of http-server-ajax-voting to use SSL/TLS,
 				thus it's a HTTPS server and not a HTTP server.
 				Use "make cert" to create the server's public key
 				certificate and private key.
