@@ -15,7 +15,7 @@ int main(void) {
 	struct sockaddr_storage client;
 	int err, sock, res, i;
 	unsigned int adl;
-	char linha[BUF_SIZE], linha1[BUF_SIZE];
+	char line[BUF_SIZE], line1[BUF_SIZE];
 	char cliIPtext[BUF_SIZE], cliPortText[BUF_SIZE];
 	struct addrinfo  req, *list;
 
@@ -43,13 +43,13 @@ int main(void) {
 
 	adl=sizeof(client);
 	while(1) {
-	        res=recvfrom(sock,linha,BUF_SIZE,0,(struct sockaddr *)&client,&adl);
+	        res=recvfrom(sock,line,BUF_SIZE,0,(struct sockaddr *)&client,&adl);
 		if(!getnameinfo((struct sockaddr *)&client,adl,
 			cliIPtext,BUF_SIZE,cliPortText,BUF_SIZE,NI_NUMERICHOST|NI_NUMERICSERV)) 
 			printf("Request from node %s, port number %s\n", cliIPtext, cliPortText);
 		else puts("Got request, but failed to get client address");
-		for(i=0;i<res;i++) linha1[res-1-i]=linha[i]; // create a mirror of the text line
-        	sendto(sock,linha1,res,0,(struct sockaddr *)&client,adl);
+		for(i=0;i<res;i++) line1[res-1-i]=line[i]; // create a mirror of the text line
+        	sendto(sock,line1,res,0,(struct sockaddr *)&client,adl);
         	}
 	close(sock);
 	exit(0);

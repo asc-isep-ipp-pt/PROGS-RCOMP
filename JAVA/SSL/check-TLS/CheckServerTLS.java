@@ -43,8 +43,10 @@ public class CheckServerTLS {
 			serverPort=443;
 		}
  
+		// Don't set the trust store, use the default: {JREHOME}/lib/security/cacerts
+		// In Linux, it's also: /etc/ssl/certs/java/cacerts
 		// System.setProperty("javax.net.ssl.trustStore", "cacerts.jks");
-		//
+		// System.setProperty("javax.net.ssl.trustStorePassword","public");
 		
 		SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 		

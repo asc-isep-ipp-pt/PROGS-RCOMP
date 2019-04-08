@@ -17,7 +17,7 @@ int main(void) {
 	struct sockaddr_storage client;
 	int sock[SERVER_NUM_PORTS], err, res, i, a, max;
 	unsigned int adl;
-	char linha[BUF_SIZE], linha1[BUF_SIZE];
+	char line[BUF_SIZE], line1[BUF_SIZE];
 	char IPtext[BUF_SIZE], portText[BUF_SIZE];
 	struct addrinfo  req, *list;
 	fd_set readSocks;
@@ -57,13 +57,13 @@ int main(void) {
 		select(max,&readSocks,NULL,NULL,NULL);
 		for(i=0;i<SERVER_NUM_PORTS;i++)
 		  if(FD_ISSET(sock[i],&readSocks)) {
-           		res=recvfrom(sock[i],linha,BUF_SIZE,0,(struct sockaddr *)&client,&adl);
+           		res=recvfrom(sock[i],line,BUF_SIZE,0,(struct sockaddr *)&client,&adl);
 	   		if(!getnameinfo((struct sockaddr *)&client,adl,
                         	IPtext,BUF_SIZE,portText,BUF_SIZE,NI_NUMERICHOST|NI_NUMERICSERV))
                 		printf("Request from node %s, port number %s\n", IPtext, portText);
         		else puts("Got request, but failed to get client address");
-	   		for(a=0;a<res;a++) linha1[res-1-a]=linha[a];
-           		sendto(sock[i],linha1,res,0,(struct sockaddr *)&client,adl);
+	   		for(a=0;a<res;a++) line1[res-1-a]=line[a];
+           		sendto(sock[i],line1,res,0,(struct sockaddr *)&client,adl);
 	   		}
         	}
 	exit(0);

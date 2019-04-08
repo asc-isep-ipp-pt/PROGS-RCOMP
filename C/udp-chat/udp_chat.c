@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	struct sockaddr_storage bcastAddr, currPeerAddr;
 	socklen_t addrLen;
 	int i, err, sock;
-	char nick[BUF_SIZE], linha[BUF_SIZE], buff[BUF_SIZE];
+	char nick[BUF_SIZE], line[BUF_SIZE], buff[BUF_SIZE];
 	struct addrinfo  req, *list;
 	fd_set rfds;
 
@@ -74,9 +74,9 @@ int main(int argc, char **argv) {
         	select(sock+1,&rfds,NULL,NULL,NULL);
 
         	if(FD_ISSET(0,&rfds)) { // user wrote something on the console
-                	GETS(linha,BUF_SIZE);
-                	if(!strcmp(linha,"EXIT")) break;
-                	if(!strcmp(linha,"LIST")) {
+                	GETS(line,BUF_SIZE);
+                	if(!strcmp(line,"EXIT")) break;
+                	if(!strcmp(line,"LIST")) {
 				printf("Active peers list:");
 				for(i=0;i<MAX_PEERS;i++)
                       	   		if(peerActive[i]) {
@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
 				printf("\n");
 				}
 			else {
-                		sprintf(buff,"(%s) %s",nick,linha);
+                		sprintf(buff,"(%s) %s",nick,line);
 				for(i=0;i<MAX_PEERS;i++)  // send the text line to all active peers
                       	   		if(peerActive[i]) {
 						sendto(sock,&buff,strlen(buff),0, (struct sockaddr *) &peerAddr[i], addrLen);

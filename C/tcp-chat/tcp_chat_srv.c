@@ -18,7 +18,7 @@ int main(void) {
 	unsigned int adl;
 	unsigned char lsize;
 	int maxfd, newMaxfd;
-	char linha[BUF_SIZE], cliIPtext[BUF_SIZE], cliPortText[BUF_SIZE];
+	char line[BUF_SIZE], cliIPtext[BUF_SIZE], cliPortText[BUF_SIZE];
 	struct addrinfo  req, *list;
 	fd_set rfds, rfds_master;
 
@@ -73,12 +73,12 @@ int main(void) {
 							puts("One client disconnected");
 							}
                         		else {
-                        			read(i,linha,lsize);
+                        			read(i,line,lsize);
                                 		for(j=0;j<=maxfd;j++)
                                 			if(j!=sock)
                                 				if(FD_ISSET(j,&rfds_master)) {
                                         					write(j,&lsize,1);
-                                        					write(j,linha,lsize);
+                                        					write(j,line,lsize);
                                         					}
 
                                 		}

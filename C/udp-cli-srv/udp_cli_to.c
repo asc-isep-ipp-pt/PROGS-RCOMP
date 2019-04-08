@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 	struct sockaddr_storage serverAddr;
 	int sock, res, err;
 	unsigned int serverAddrLen;
-	char linha[BUF_SIZE];
+	char line[BUF_SIZE];
 	struct addrinfo  req, *list;
 	struct timeval to;      
 
@@ -65,13 +65,13 @@ int main(int argc, char **argv) {
 
 	while(1) {
 		printf("Request sentence to send (\"exit\" to quit): ");
-        	GETS(linha,BUF_SIZE);
-		if(!strcmp(linha,"exit")) break;
-		sendto(sock,linha,strlen(linha),0,(struct sockaddr *)&serverAddr,serverAddrLen);
-	        res=recvfrom(sock,linha,BUF_SIZE,0,(struct sockaddr *)&serverAddr,&serverAddrLen);
+        	GETS(line,BUF_SIZE);
+		if(!strcmp(line,"exit")) break;
+		sendto(sock,line,strlen(line),0,(struct sockaddr *)&serverAddr,serverAddrLen);
+	        res=recvfrom(sock,line,BUF_SIZE,0,(struct sockaddr *)&serverAddr,&serverAddrLen);
         	if(res>0) {
-                	linha[res]=0; /* NULL terminate the string */
-                	printf("Received reply: %s\n",linha);
+                	line[res]=0; /* NULL terminate the string */
+                	printf("Received reply: %s\n",line);
                 	}
         	else
                 	printf("No reply from server\n");

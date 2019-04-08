@@ -19,7 +19,7 @@
 int main(int argc, char **argv) {
 	int err, sock;
 	unsigned char lsize;
-	char nick[BUF_SIZE], linha[BUF_SIZE], buff[BUF_SIZE];
+	char nick[BUF_SIZE], line[BUF_SIZE], buff[BUF_SIZE];
 	struct addrinfo  req, *list;
 	fd_set rfds;
 
@@ -52,14 +52,14 @@ int main(int argc, char **argv) {
         	FD_SET(0,&rfds); FD_SET(sock,&rfds);
         	select(sock+1,&rfds,NULL,NULL,NULL);
         	if(FD_ISSET(0,&rfds)) {
-                	GETS(linha,BUF_SIZE);
-                	if(!strcmp(linha,"exit")) {
+                	GETS(line,BUF_SIZE);
+                	if(!strcmp(line,"exit")) {
                         	lsize=0;
                         	write(sock,&lsize,1);
                         	read(sock,&lsize,1);
                         	break;
                         	}
-                	sprintf(buff,"(%s) %s",nick,linha);
+                	sprintf(buff,"(%s) %s",nick,line);
                 	lsize=strlen(buff);
                 	write(sock,&lsize,1);
                		write(sock,buff,lsize);
