@@ -284,6 +284,34 @@ C/SSL/tcp-cli-srv/tcp_srv_sum_TLS.c
 
 
 
+
+
+JAVA/SSL/tcp-cli-srv/TcpCliSumTLS.java
+JAVA/SSL/tcp-cli-srv/TcpSrvSumTLS.java
+
+				Adaptation of JAVA/tcp-cli-srv to use SSL/TLS. Enforces
+				the authentication of both the server and the clients,
+				through public key certificates.
+				Use "make certs" to create all certificates and private
+				keys, this creates files:
+					client1_J.jks client1_J.pem
+					client2_J.jks client2_J.pem
+					client3_J.jks client3_J.pem
+					client4_J.jks client4_J.pem
+					server_J.jks  server_J.pem
+				Each PEM file contains the entity certificate only.
+				Each JKS (Java KeyStore) file contains the entiry certificate
+				and private key, together with trusted certificates.
+				The server trusts client1_J, client2_J, and client3_J. But
+				not client4_J.
+				Every client trusts server_J.
+					
+
+
+
+
+
+
 C/SSL/https-server-ajax-voting/https_srv_ajax_voting.c
 JAVA/SSL/https-server-ajax-voting/HttpsServerAjaxVoting.java
 

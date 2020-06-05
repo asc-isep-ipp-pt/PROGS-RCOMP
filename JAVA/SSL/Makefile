@@ -1,4 +1,4 @@
-APPS_FOLDERS=check-TLS https-server-ajax-voting
+APPS_FOLDERS=check-TLS https-server-ajax-voting tcp-cli-srv
 
 all: 
 	 $(foreach AF,$(APPS_FOLDERS),(cd $(AF); make );)
